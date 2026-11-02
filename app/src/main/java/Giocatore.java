@@ -1,5 +1,6 @@
 public class Giocatore extends Personaggio{
 
+    private Arma armaEquipaggiata;
     private final Inventario inventario;
 
 
