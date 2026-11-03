@@ -29,6 +29,7 @@ public abstract class Personaggio {
         this.salute = Math.min(this.salute += cure, this.saluteMassima);
     }
 
+
     public boolean isVivo(){ return (this.salute != 0); }
 
 //------------------------------------------GETTER--------------------------------------
@@ -40,7 +41,7 @@ public abstract class Personaggio {
 
     public int getAttaccoBase() { return attaccoBase; }
 
-    public int getDifesa() { return difesa; }
+    public int getDifesaBase() { return difesa; }
 //---------------------------------------------------------------------------------------
 
 }
