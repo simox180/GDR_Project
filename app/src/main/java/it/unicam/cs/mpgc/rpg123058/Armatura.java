@@ -1,4 +1,6 @@
-public class Armatura extends Oggetto{
+package it.unicam.cs.mpgc.rpg123058;
+
+public class Armatura extends Oggetto {
 
     private final int difesaBonus;
 

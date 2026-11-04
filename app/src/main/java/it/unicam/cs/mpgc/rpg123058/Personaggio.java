@@ -1,12 +1,14 @@
+package it.unicam.cs.mpgc.rpg123058;
+
 public abstract class Personaggio {
 
     private String nome;
     private int salute;
-    private int saluteMassima;
-    private int attaccoBase;
-    private int difesa;
+    private final int saluteMassima;
+    private final int attaccoBase;
+    private final int difesaBase;
 
-    public Personaggio(String nome, int saluteMassima, int attaccoBase, int difesa){
+    public Personaggio(String nome, int saluteMassima, int attaccoBase, int difesaBase){
         if(nome.isEmpty()) throw new IllegalArgumentException("Il nome deve essere assegnato");
         if(saluteMassima <= 0 || attaccoBase <= 0) throw new IllegalArgumentException("La saluteMassima o l'attaccoBase non possono essere minori o uguali a zero");
 
@@ -14,7 +16,7 @@ public abstract class Personaggio {
         this.saluteMassima = saluteMassima;
         this.salute = this.saluteMassima;
         this.attaccoBase = attaccoBase;
-        this.difesa = difesa;
+        this.difesaBase = difesaBase;
     }
 
     public void subisciDanno(int danno){
@@ -41,7 +43,7 @@ public abstract class Personaggio {
 
     public int getAttaccoBase() { return attaccoBase; }
 
-    public int getDifesaBase() { return difesa; }
+    public int getDifesaBase() { return difesaBase; }
 //---------------------------------------------------------------------------------------
 
 }

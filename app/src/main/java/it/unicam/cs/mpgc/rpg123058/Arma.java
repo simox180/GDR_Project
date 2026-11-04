@@ -1,3 +1,5 @@
+package it.unicam.cs.mpgc.rpg123058;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class Arma extends Oggetto {

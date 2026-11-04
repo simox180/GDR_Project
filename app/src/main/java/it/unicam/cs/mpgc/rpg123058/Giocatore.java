@@ -1,6 +1,8 @@
+package it.unicam.cs.mpgc.rpg123058;
+
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-public class Giocatore extends Personaggio{
+public class Giocatore extends Personaggio {
 
     private @Nullable Arma armaEquipaggiata = null;
     private @Nullable Armatura armaturaEquipaggiata;
@@ -14,8 +16,11 @@ public class Giocatore extends Personaggio{
     }
 
     public void equipaggiaArma(Arma arma){
-        if(arma == null) throw new NullPointerException("Arma passata nulla");
+        if(arma == null) throw new NullPointerException("it.unicam.cs.mpgc.rpg123058.Arma passata nulla");
 
+        if(this.armaEquipaggiata != null){
+            //this.inventario.addOggetto
+        }
         this.armaEquipaggiata = arma;
     }
 

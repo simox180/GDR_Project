@@ -1,4 +1,6 @@
-public class Nemico extends Personaggio{
+package it.unicam.cs.mpgc.rpg123058;
+
+public class Nemico extends Personaggio {
 
     private Oggetto bottino;
 

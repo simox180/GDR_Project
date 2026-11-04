@@ -1,3 +1,5 @@
+package it.unicam.cs.mpgc.rpg123058;
+
 public class Consumabile extends Oggetto {
 
     private final int puntiCura;
