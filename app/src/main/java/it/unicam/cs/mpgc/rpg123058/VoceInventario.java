@@ -52,25 +52,4 @@ public class VoceInventario {
      * @return la quantità corrente
      */
     public int getQuantita() { return quantita; }
-
-    /**
-     * Confronta questa voce con l'oggetto in essa contenuto.
-     *
-     * @param obj l'oggetto da confrontare
-     * @return {@code true} se l'oggetto interno è uguale all'argomento
-     */
-    @Override
-    public boolean equals(Object obj) {
-        return oggetto.equals(obj);
-    }
-
-    /**
-     * Restituisce il codice hash dell'oggetto contenuto.
-     *
-     * @return il codice hash dell'oggetto interno
-     */
-    @Override
-    public int hashCode() {
-        return oggetto.hashCode();
-    }
 }

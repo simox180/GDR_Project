@@ -1,5 +1,9 @@
 package it.unicam.cs.mpgc.rpg123058;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
+import java.util.Objects;
+
 /**
  * Definisce le caratteristiche e le operazioni comuni ai personaggi del gioco.
  * La salute corrente è mantenuta nell'intervallo da zero alla salute massima.
@@ -22,9 +26,11 @@ public abstract class Personaggio {
      * @throws IllegalArgumentException se il nome è vuoto, la salute massima o l'attacco base
      *                                  non sono positivi
      */
-    public Personaggio(String nome, int saluteMassima, int attaccoBase, int difesaBase){
-        if(nome.isEmpty()) throw new IllegalArgumentException("Il nome deve essere assegnato");
-        if(saluteMassima <= 0 || attaccoBase <= 0) throw new IllegalArgumentException("La saluteMassima o l'attaccoBase non possono essere minori o uguali a zero");
+    public Personaggio(@NonNull String nome, int saluteMassima, int attaccoBase, int difesaBase){
+        Objects.requireNonNull(nome, "Il nome non può essere null");
+        if (nome.isBlank()) throw new IllegalArgumentException("Il nome non può essere vuoto o contenere solo spazi");
+
+        if(saluteMassima <= 0 || attaccoBase <= 0 || difesaBase < 0) throw new IllegalArgumentException("SaluteMassima, attaccoBase o difesaBase non valida");
 
         this.nome = nome;
         this.saluteMassima = saluteMassima;
@@ -36,11 +42,12 @@ public abstract class Personaggio {
     /**
      * Riduce la salute corrente del danno ricevuto senza portarla sotto zero.
      *
-     * @param danno l'ammontare del danno, che deve essere positivo
-     * @throws IllegalArgumentException se il danno non è positivo
+     *
+     * @param danno l'ammontare del danno, che deve essere positivo, già diminuito dalla difesa
+     * @throws IllegalArgumentException se il danno è negativo
      */
     public void subisciDanno(int danno){
-        if(danno <= 0) throw new IllegalArgumentException("Il danno non può essere negativo o nullo");
+        if(danno < 0) throw new IllegalArgumentException("Il danno non può essere negativo");
 
         this.salute = Math.max(0, this.salute - danno);
     }
@@ -49,10 +56,10 @@ public abstract class Personaggio {
      * Aumenta la salute corrente senza superare la salute massima.
      *
      * @param cure l'ammontare della cura, che deve essere positivo
-     * @throws IllegalArgumentException se la cura non è positiva
+     * @throws IllegalArgumentException se la cura non è positiva o è troppo grande
      */
     public void cura(int cure){
-        if(cure <= 0) throw new IllegalArgumentException("Le cure non possono essere negative o nulle");
+        if(cure <= 0 || cure > Integer.MAX_VALUE-cure ) throw new IllegalArgumentException("Le cure non possono essere negative o nulle");
 
         this.salute = Math.min(this.salute += cure, this.saluteMassima);
     }

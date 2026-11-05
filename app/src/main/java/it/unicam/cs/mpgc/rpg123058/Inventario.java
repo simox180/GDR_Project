@@ -54,7 +54,7 @@ public class Inventario {
         VoceInventario appVoceInventario = this.cercaOggetto(oggetto);
         if(appVoceInventario != null){
             boolean diminuito = appVoceInventario.diminuisciQuantita();
-            if(!diminuito) oggetti.remove(new VoceInventario(oggetto));
+            if(!diminuito) oggetti.remove(appVoceInventario);
             return true;
         }
 
@@ -68,7 +68,7 @@ public class Inventario {
      * @return la voce corrispondente, oppure {@code null} se l'oggetto non è presente
      * @throws NullPointerException se l'oggetto è nullo
      */
-    public @Nullable VoceInventario cercaOggetto(@NonNull Oggetto oggetto){
+    private @Nullable VoceInventario cercaOggetto(@NonNull Oggetto oggetto){
         Objects.requireNonNull(oggetto, "L'oggetto non può essere nullo");
 
         int i=0;
@@ -83,4 +83,9 @@ public class Inventario {
         return null;
     }
 
+    public ArrayList<VoceInventario> consultaInventario(){
+        List<VoceInventario> copiaInventario = this.oggetti;
+
+        return (ArrayList<VoceInventario>) copiaInventario;
+    }
 }

@@ -34,12 +34,43 @@ public class Giocatore extends Personaggio {
      * @throws NullPointerException se l'arma è nulla
      */
     public void equipaggiaArma(Arma arma){
-        if(arma == null) throw new NullPointerException("it.unicam.cs.mpgc.rpg123058.Arma passata nulla");
+        if(arma == null) throw new NullPointerException("Arma passata nulla");
 
         if(this.armaEquipaggiata != null){
-            //this.inventario.addOggetto
+            this.inventario.inserisciOggetto(this.armaEquipaggiata);
         }
+        this.escludiEquipaggiamento(arma);
+
         this.armaEquipaggiata = arma;
+    }
+
+    /**
+     * Imposta l'armatura equipaggiata dal giocatore.
+     *
+     * @param armatura l'arma da equipaggiare, non nulla
+     * @throws NullPointerException se l'armatura è nulla
+     */
+    public void equipaggiaArmatura(Armatura armatura){
+        if(armatura == null) throw new NullPointerException("Armatura passata nulla");
+
+        if(this.armaturaEquipaggiata != null){
+            this.inventario.inserisciOggetto(this.armaturaEquipaggiata);
+        }
+        this.escludiEquipaggiamento(armatura);
+
+        this.armaturaEquipaggiata = armatura;
+
+    }
+
+    /**
+     * Elimina l'oggetto che si sta equipaggiando dall'Inventario.
+     *
+     * @param oggetto
+     * @throws IllegalArgumentException se l'oggetto che si sta equipaggiando non è contenuto nell'inventario
+     */
+    private void escludiEquipaggiamento(Oggetto oggetto){
+        boolean eliminata = this.inventario.rimuoviOggetto(oggetto);
+        if(!eliminata) throw new IllegalArgumentException("L'oggetto non è contenuta nell'inventario");
     }
 
     /**

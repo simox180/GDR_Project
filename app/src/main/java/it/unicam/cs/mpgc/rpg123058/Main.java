@@ -10,6 +10,10 @@ public class Main {
      * @param args gli argomenti passati dalla riga di comando
      */
     public static void main(String[] args) {
+
         System.out.println("RADICE");
+
+
+
     }
 }
