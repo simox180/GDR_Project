@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg123058;
+package it.unicam.cs.mpgc.rpg123058.Dominio;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -120,6 +120,7 @@ public class Giocatore extends Personaggio {
      *
      * @return l'attacco base, maggiorato del bonus dell'arma equipaggiata quando presente
      */
+    @Override
     public int getAttacco(){
         Arma arma = this.armaEquipaggiata;
 
@@ -135,6 +136,7 @@ public class Giocatore extends Personaggio {
      *
      * @return la difesa base, maggiorata del bonus dell'armatura equipaggiata quando presente
      */
+    @Override
     public int getDifesa() {
         if (armaturaEquipaggiata == null)
             return super.getDifesaBase();

@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg123058;
+package it.unicam.cs.mpgc.rpg123058.Dominio;
 
 /**
  * Rappresenta un oggetto equipaggiabile che incrementa la difesa del personaggio.

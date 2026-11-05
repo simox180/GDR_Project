@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg123058;
+package it.unicam.cs.mpgc.rpg123058.Dominio;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -96,12 +96,20 @@ public abstract class Personaggio {
      */
     public int getSaluteMassima() { return saluteMassima; }
 
+    public int getAttacco(){
+        return this.getAttaccoBase();
+    }
+
     /**
      * Restituisce il valore di attacco base del personaggio.
      *
      * @return l'attacco base
      */
     public int getAttaccoBase() { return attaccoBase; }
+
+    public int getDifesa(){
+        return this.getDifesaBase();
+    }
 
     /**
      * Restituisce il valore di difesa base del personaggio.

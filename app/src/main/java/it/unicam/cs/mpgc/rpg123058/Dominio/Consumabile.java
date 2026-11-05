@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg123058;
+package it.unicam.cs.mpgc.rpg123058.Dominio;
 
 /**
  * Rappresenta un oggetto che fornisce un effetto quando viene utilizzato.

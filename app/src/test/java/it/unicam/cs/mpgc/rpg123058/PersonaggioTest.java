@@ -1,5 +1,6 @@
 package it.unicam.cs.mpgc.rpg123058;
 
+import it.unicam.cs.mpgc.rpg123058.Dominio.Giocatore;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,5 +1,8 @@
 package it.unicam.cs.mpgc.rpg123058;
 
+import it.unicam.cs.mpgc.rpg123058.Dominio.Arma;
+import it.unicam.cs.mpgc.rpg123058.Dominio.Inventario;
+import it.unicam.cs.mpgc.rpg123058.Dominio.VoceInventario;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
