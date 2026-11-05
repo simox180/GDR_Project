@@ -9,24 +9,36 @@ import java.util.Objects;
  */
 public class VoceInventario {
     private final Oggetto oggetto;
-    private int quantita = 1;
+    private int quantita;
 
     /**
-     * Crea una voce contenente una singola copia dell'oggetto specificato.
-     *
+     * Crea una voce contenente una singola copia dell'oggetto specificato usando il secondo costruttore che prende
+     * come parametro anche la quantità
      * @param oggetto l'oggetto associato alla voce, non nullo
      * @throws NullPointerException se l'oggetto è nullo
      */
     public VoceInventario(@NonNull Oggetto oggetto){
-        Objects.requireNonNull(oggetto, "L'oggetto non può essere null");
+        this(oggetto,1);
+    }
 
-        this.oggetto = oggetto;
+    public VoceInventario(@NonNull Oggetto oggetto, int quantita){
+        this.oggetto = Objects.requireNonNull(
+                oggetto, "L'oggetto non può essere null"
+        );
+
+        if (quantita <= 0) {
+            throw new IllegalArgumentException("La quantità deve essere positiva");
+        }
+
+        this.quantita = quantita;
     }
 
     /**
      * Incrementa di una unità la quantità dell'oggetto nella voce.
      */
-    public void aumentaQuantita(){ this.quantita++; }
+    public void aumentaQuantita(){
+        if(this.quantita < Integer.MAX_VALUE) this.quantita++;
+    }
 
     /**
      * Decrementa di una unità la quantità se contiene più di una copia.

@@ -59,9 +59,11 @@ public abstract class Personaggio {
      * @throws IllegalArgumentException se la cura non è positiva o è troppo grande
      */
     public void cura(int cure){
-        if(cure <= 0 || cure > Integer.MAX_VALUE-cure ) throw new IllegalArgumentException("Le cure non possono essere negative o nulle");
+        if(cure <= 0 ) throw new IllegalArgumentException("Le cure non possono essere negative o nulle");
 
-        this.salute = Math.min(this.salute += cure, this.saluteMassima);
+        int vitaMancante = this.saluteMassima - this.salute;
+
+        this.salute += Math.min(cure, vitaMancante);
     }
 
 

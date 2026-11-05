@@ -83,9 +83,21 @@ public class Inventario {
         return null;
     }
 
-    public ArrayList<VoceInventario> consultaInventario(){
-        List<VoceInventario> copiaInventario = this.oggetti;
+    /**
+     * Restituisce una copia dell'inventario per evitare modifiche esterne e proteggere i dati.
+     *
+     * @return la copia dell'Inventario
+     */
+    public List<VoceInventario> consultaInventario(){
+        List<VoceInventario> copiaInventario = new ArrayList<>();
 
-        return (ArrayList<VoceInventario>) copiaInventario;
+        for (VoceInventario voce : oggetti) {
+            copiaInventario.add(new VoceInventario(
+                    voce.getOggetto(),
+                    voce.getQuantita()
+            ));
+        }
+
+        return copiaInventario;
     }
 }

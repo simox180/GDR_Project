@@ -2,6 +2,8 @@ package it.unicam.cs.mpgc.rpg123058;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Objects;
+
 /**
  * Rappresenta un personaggio controllato dal giocatore, dotato di inventario
  * e di slot per arma e armatura equipaggiate.
@@ -36,12 +38,23 @@ public class Giocatore extends Personaggio {
     public void equipaggiaArma(Arma arma){
         if(arma == null) throw new NullPointerException("Arma passata nulla");
 
+        this.escludiOggetto(arma);
+
         if(this.armaEquipaggiata != null){
             this.inventario.inserisciOggetto(this.armaEquipaggiata);
         }
-        this.escludiEquipaggiamento(arma);
+
 
         this.armaEquipaggiata = arma;
+    }
+
+    public boolean disequipaggiaArma(){
+        if(this.armaEquipaggiata == null) return false;
+
+        this.inventario.inserisciOggetto(this.armaEquipaggiata);
+        this.armaEquipaggiata = null;
+
+        return true;
     }
 
     /**
@@ -53,13 +66,40 @@ public class Giocatore extends Personaggio {
     public void equipaggiaArmatura(Armatura armatura){
         if(armatura == null) throw new NullPointerException("Armatura passata nulla");
 
+        this.escludiOggetto(armatura);
+
         if(this.armaturaEquipaggiata != null){
             this.inventario.inserisciOggetto(this.armaturaEquipaggiata);
         }
-        this.escludiEquipaggiamento(armatura);
 
         this.armaturaEquipaggiata = armatura;
+    }
 
+    public boolean disequipaggiaArmatura(){
+        if(this.armaturaEquipaggiata == null) return false;
+
+        this.inventario.inserisciOggetto(this.armaturaEquipaggiata);
+        this.armaturaEquipaggiata = null;
+
+        return true;
+    }
+
+    /**
+     * Utilizza un consumabile, indipendentemente da quale effetto esso abbia.
+     *
+     * @param consumabile che si intende utilizzare
+     * @return {@code true} se passano tutti i controlli e il consumabile viene utilizzato
+     */
+    public boolean usaConsumabile(Consumabile consumabile){
+        Objects.requireNonNull(consumabile, "Consumabile nullo");
+        if(!this.isVivo()) return false;
+
+        if(!(consumabile.puoEssereUsato(this))) return false;
+        boolean eliminato = this.inventario.rimuoviOggetto(consumabile);
+        if(!eliminato) return false;
+
+        consumabile.applicaEffetto(this);
+        return true;
     }
 
     /**
@@ -68,10 +108,12 @@ public class Giocatore extends Personaggio {
      * @param oggetto
      * @throws IllegalArgumentException se l'oggetto che si sta equipaggiando non è contenuto nell'inventario
      */
-    private void escludiEquipaggiamento(Oggetto oggetto){
+    private void escludiOggetto(Oggetto oggetto){
         boolean eliminata = this.inventario.rimuoviOggetto(oggetto);
         if(!eliminata) throw new IllegalArgumentException("L'oggetto non è contenuta nell'inventario");
     }
+
+
 
     /**
      * Calcola l'attacco corrente sommando, se presente, il bonus dell'arma equipaggiata.
@@ -124,5 +166,9 @@ public class Giocatore extends Personaggio {
      */
     public Inventario getInventario(){
         return inventario;
+    }
+
+    public boolean isSaluteAlMassimo(){
+        return super.getSalute() == super.getSaluteMassima();
     }
 }
