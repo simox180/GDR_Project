@@ -20,7 +20,7 @@ public class GestoreTurniSequenziale implements GestoreTurni{
             if(!(partecipante.isVivo())) throw new IllegalArgumentException("Personaggi morti non ammessi");
         }
 
-        this.partecipanti = partecipanti;
+        this.partecipanti = List.copyOf(partecipanti);
     }
 
     @Override
