@@ -15,17 +15,22 @@ public class Combattimento {
     private final Giocatore giocatore;
     private final List<Nemico> nemici;
     private final GestoreTurni gestoreTurni;
+    private final CalcolatoreDanno calcolatoreDanno;
 
    /**
     * Costruttore che acquisisce il giocatore, la lista dei nemici
     * e un gestoreTurni creato dalla funzione passata come parametro
-    * per poter usare un gestore diverso a piacimento
+    * per poter usare un gestore diverso polimorficamente.
+    * Questo costruttore si occupa di creare il gestoreTurni in modo da avere
+    * un solo punto di inizio usando una copia della lista dei partecipanti
+    * così da non essere modificabile.
     *
     * @param giocatore giocatore protagonista del combattimento
     * @param nemici lista dei nemici scelti
     * @param creaGestore funzione che permette il polimorsfismo/scelta dei gestoriTurni
+    * @param calcolatoreDanno calcolatore per il danno effettivo degli attacchi
     */
-    public Combattimento(Giocatore giocatore, List<Nemico> nemici, Function<List<Personaggio>, GestoreTurni> creaGestore){
+    public Combattimento(Giocatore giocatore, List<Nemico> nemici, Function<List<Personaggio>, GestoreTurni> creaGestore, CalcolatoreDanno calcolatoreDanno){
         if(giocatore == null || nemici == null || creaGestore == null) throw new NullPointerException("Parametri nulli non ammessi");
         if(!(giocatore.isVivo())) throw new IllegalArgumentException("Giocatore non vivo");
         if(nemici.isEmpty()) throw new IllegalArgumentException("Nessun nemico nella lista");
@@ -44,6 +49,7 @@ public class Combattimento {
 
         this.gestoreTurni = Objects.requireNonNull(gestoreTurniApp, "Gestore nullo");
         this.giocatore = giocatore;
+        this.calcolatoreDanno = calcolatoreDanno;
     }
 
     public Personaggio getPersonaggioDiTurno(){
@@ -68,4 +74,13 @@ public class Combattimento {
         return StatoCombattimento.VITTORIA;
     }
 
+
+    public void attaccaBersaglio(Personaggio bersaglio){
+        if(bersaglio == null) throw new NullPointerException("Bersaglio nullo");
+        if(!(bersaglio.isVivo())) throw new IllegalArgumentException("Non è possibile bersagliare un personaggio morto");
+
+
+
+
+    }
 }
