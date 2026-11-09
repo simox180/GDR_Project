@@ -79,8 +79,39 @@ public class Combattimento {
         if(bersaglio == null) throw new NullPointerException("Bersaglio nullo");
         if(!(bersaglio.isVivo())) throw new IllegalArgumentException("Non è possibile bersagliare un personaggio morto");
 
+        Personaggio attaccante = this.getPersonaggioDiTurno();
 
+        if(!(this.validaAvversario(attaccante, bersaglio))) throw new IllegalArgumentException("I personaggi devono appartenere al combattimento e il bersaglio deve essere un avversario");
 
+        int danno = calcolatoreDanno.calcolaDanno(attaccante,bersaglio);
+        
+        bersaglio.subisciDanno(danno);
 
+        if (this.getStatoCombattimento() == StatoCombattimento.IN_CORSO) {
+            this.gestoreTurni.avanzaTurno();
+        }
+        
+    }
+
+    /**
+     * Validazione interna dell'avversario che si assicura che l'attaccante
+     * e il bersaglio siano avversari e appartengano al combattimento
+     *
+     * @param attaccante chi produce l'attacco
+     * @param bersaglio chi subisce i danni
+     * @return {@code true} se l'attaccante e il bersaglio sono avversari
+     * e appartengono al combattimento, {@code false} se sono alleati
+     * o non appartengono al combattimento
+     */
+    private boolean validaAvversario(Personaggio attaccante, Personaggio bersaglio){
+        if (attaccante == this.giocatore) {
+            return this.nemici.contains(bersaglio);
+        }
+
+        if (this.nemici.contains(attaccante)) {
+            return bersaglio == this.giocatore;
+        }
+
+        return false;
     }
 }
