@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg123058.Combattimento;
+package it.unicam.cs.mpgc.rpg123058.Combattimento.CalcolatoreDanno;
 
 import it.unicam.cs.mpgc.rpg123058.Dominio.Personaggio;
 

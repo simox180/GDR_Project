@@ -1,8 +1,8 @@
-package it.unicam.cs.mpgc.rpg123058.Combattimento;
+package it.unicam.cs.mpgc.rpg123058.Combattimento.CalcolatoreDanno;
 
 import it.unicam.cs.mpgc.rpg123058.Dominio.Personaggio;
 
-public class CalcolatoreDannoBase implements CalcolatoreDanno{
+public class CalcolatoreDannoBase implements CalcolatoreDanno {
     /**
      * Calcola il danno effettivo tenendo conto dell'attacco e della difesa dei personaggi
      * (Questo metodo non è statico perchè non funzionerebbe l'overriding ma sarebbe legato

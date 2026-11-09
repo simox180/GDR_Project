@@ -1,14 +1,12 @@
-package it.unicam.cs.mpgc.rpg123058.Combattimento;
+package it.unicam.cs.mpgc.rpg123058.Combattimento.GestoreTurni;
 
 import it.unicam.cs.mpgc.rpg123058.Dominio.Personaggio;
 import it.unicam.cs.mpgc.rpg123058.Utility;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class GestoreTurniSequenziale implements GestoreTurni{
+public class GestoreTurniSequenziale implements GestoreTurni {
 
     private final List<Personaggio> partecipanti;
     private int indiceCorrente = 0;

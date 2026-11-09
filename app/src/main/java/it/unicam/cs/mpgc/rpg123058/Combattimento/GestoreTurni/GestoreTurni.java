@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg123058.Combattimento;
+package it.unicam.cs.mpgc.rpg123058.Combattimento.GestoreTurni;
 
 import it.unicam.cs.mpgc.rpg123058.Dominio.Personaggio;
 import org.checkerframework.checker.nullness.qual.Nullable;

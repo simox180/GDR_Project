@@ -1,10 +1,10 @@
-package it.unicam.cs.mpgc.rpg123058.Combattimento;
+package it.unicam.cs.mpgc.rpg123058.Combattimento.StrategiaNemico;
 
 import it.unicam.cs.mpgc.rpg123058.Dominio.Nemico;
 
 import java.util.Random;
 
-public class StrategiaNemicoBase implements StrategiaNemico{
+public class StrategiaNemicoBase implements StrategiaNemico {
 
     private final Random scelta = new Random();
 

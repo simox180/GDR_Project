@@ -1,5 +1,9 @@
 package it.unicam.cs.mpgc.rpg123058.Combattimento;
 
+import it.unicam.cs.mpgc.rpg123058.Combattimento.CalcolatoreDanno.CalcolatoreDanno;
+import it.unicam.cs.mpgc.rpg123058.Combattimento.GestoreTurni.GestoreTurni;
+import it.unicam.cs.mpgc.rpg123058.Combattimento.StrategiaNemico.AzioneNemico;
+import it.unicam.cs.mpgc.rpg123058.Combattimento.StrategiaNemico.StrategiaNemico;
 import it.unicam.cs.mpgc.rpg123058.Dominio.Consumabile;
 import it.unicam.cs.mpgc.rpg123058.Dominio.Giocatore;
 import it.unicam.cs.mpgc.rpg123058.Dominio.Nemico;
