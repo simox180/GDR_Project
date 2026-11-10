@@ -6,6 +6,12 @@ public class ConsumabileCurativo extends Consumabile {
 
     private final int puntiCura;
 
+    /**
+     * Crea un consumabile con una cura positiva.
+     * @param nome nome non nullo né blank
+     * @param puntiCura punti di cura positivi
+     * @throws IllegalArgumentException se i punti cura non sono positivi
+     */
     public ConsumabileCurativo(String nome, int puntiCura){
         super(nome);
 
@@ -15,6 +21,12 @@ public class ConsumabileCurativo extends Consumabile {
     }
 
     @Override
+    /**
+     * Controlla se al giocatore manca salute.
+     * @param giocatore giocatore non nullo
+     * @return {@code true} se la salute non è al massimo, {@code false} altrimenti
+     * @throws NullPointerException se il giocatore è nullo
+     */
     public boolean puoEssereUsato(Giocatore giocatore) {
         Objects.requireNonNull(giocatore, "Giocatore passato nullo");
 
@@ -22,6 +34,11 @@ public class ConsumabileCurativo extends Consumabile {
     }
 
     @Override
+    /**
+     * Cura il giocatore fino alla salute massima.
+     * @param giocatore destinatario non nullo
+     * @throws NullPointerException se il giocatore è nullo
+     */
     public void applicaEffetto(Giocatore giocatore) {
         Objects.requireNonNull(giocatore, "Giocatore passato nullo");
 

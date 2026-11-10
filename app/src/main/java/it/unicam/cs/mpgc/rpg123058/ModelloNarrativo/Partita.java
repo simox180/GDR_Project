@@ -24,6 +24,16 @@ public class Partita {
     private Combattimento combattimentoAttivo;
     private String idIncontroAttivo;
 
+    /**
+     * Inizializza una partita con un giocatore vivo e una scena iniziale esistente. Copia i cataloghi e la collezione di scene; gli oggetti contenuti restano condivisi.
+     * @param giocatore protagonista vivo
+     * @param scene scene non nulle con ID distinti
+     * @param idScenaIniziale ID non blank di una scena presente
+     * @param oggetti catalogo degli oggetti con chiavi non blank e valori non nulli
+     * @param incontri factory degli incontri con chiavi non blank e valori non nulli
+     * @throws NullPointerException se un parametro, una scena o una voce di catalogo è nulla
+     * @throws IllegalArgumentException se il giocatore è morto, un ID è invalido o una scena è duplicata
+     */
     public Partita(Giocatore giocatore, List<Scena> scene, String idScenaIniziale, Map<String, Oggetto> oggetti, Map<String, Function<Giocatore, Combattimento>> incontri){
         if(giocatore == null || scene == null || idScenaIniziale == null || oggetti == null || incontri == null) throw new NullPointerException("Parametri nulli non ammessi");
         if(idScenaIniziale.isBlank()) throw new IllegalArgumentException("Id scen iniziale buoto o contiene solo spazi");
@@ -64,6 +74,13 @@ public class Partita {
 
     }
 
+    /**
+     * Esegue una scelta disponibile della scena corrente: naviga, raccoglie o avvia un incontro.
+     * @param scelta scelta effettivamente presente e disponibile
+     * @throws NullPointerException se la scelta è nulla
+     * @throws IllegalStateException se il giocatore è morto o uno scontro è attivo
+     * @throws IllegalArgumentException se la scelta non è disponibile o un riferimento è inesistente
+     */
     public void eseguiScelta(Scelta scelta){
         if(scelta == null) throw new NullPointerException("Scelta nulla non ammessa");
         if(!(this.giocatore.isVivo())) throw new IllegalStateException("Il giocatore deve essere vivo");
@@ -85,6 +102,11 @@ public class Partita {
 
     }
 
+    /**
+     * Sposta la scena corrente alla destinazione esistente della scelta già validata.
+     * @param scelta scelta di navigazione disponibile
+     * @throws IllegalArgumentException se la destinazione non esiste
+     */
     private void eseguiNavigazione(SceltaNavigazione scelta) {
         String idDestinazione = scelta.idScenaDestinazione();
 
@@ -93,6 +115,12 @@ public class Partita {
         this.idScenaCorrente = idDestinazione;
     }
 
+    /**
+     * Inserisce l’oggetto nell’inventario e registra {@code raccolta:idScena:idScelta}. La scelta è già stata validata.
+     * @param scelta scelta di raccolta disponibile
+     * @throws IllegalStateException se la raccolta è già avvenuta
+     * @throws IllegalArgumentException se l’oggetto non è nel catalogo
+     */
     private void eseguiRaccolta(SceltaRaccolta scelta) {
         String evento = "raccolta:" + idScenaCorrente + ":" + scelta.id();
 
@@ -106,6 +134,12 @@ public class Partita {
         eventiCompletati.add(evento);
     }
 
+    /**
+     * Crea e attiva l’incontro indicato dalla scelta già validata, senza registrare una vittoria.
+     * @param scelta scelta di incontro disponibile
+     * @throws IllegalStateException se l’incontro è già vinto o la factory restituisce {@code null}
+     * @throws IllegalArgumentException se l’incontro non è nel catalogo
+     */
     private void eseguiCombattimento(SceltaCombattimento scelta) {
         String idIncontro = scelta.idCombattimento();
 
@@ -126,10 +160,18 @@ public class Partita {
         this.idIncontroAttivo = idIncontro;
     }
 
+    /**
+     * Restituisce la scena corrente senza cambiarla.
+     * @return la scena corrente
+     */
     public Scena getScenaCorrente() {
         return scene.get(idScenaCorrente);
     }
 
+    /**
+     * Consulta le scelte della scena corrente; durante uno scontro o dopo la sconfitta restituisce una lista vuota.
+     * @return lista non modificabile delle scelte disponibili
+     */
     public List<Scelta> getScelteDisponibili() {
         //per evitare di mostrare scelte durante uno scontro o dopo la morte
         if (!giocatore.isVivo() || combattimentoAttivo != null) return List.of();
@@ -137,6 +179,10 @@ public class Partita {
         return getScenaCorrente().getScelteDisponibili(eventiCompletati);
     }
 
+    /**
+     * Chiude lo scontro terminato; in caso di vittoria assegna il bottino e registra {@code vittoria:idIncontro}.
+     * @throws IllegalStateException se non esiste uno scontro o è ancora in corso
+     */
     private void concludiCombattimento(){
         if(this.combattimentoAttivo == null) throw new IllegalStateException("Non è attivo un combattimento");
 
@@ -160,24 +206,44 @@ public class Partita {
         this.idIncontroAttivo = null;
     }
 
+    /**
+     * Delega l’attacco del personaggio di turno e chiude uno scontro terminato.
+     * @param bersaglio avversario vivo appartenente allo scontro
+     * @throws IllegalStateException se non esiste uno scontro attivo
+     * @throws IllegalArgumentException se il bersaglio non è valido
+     */
     public void attaccaBersaglio(Personaggio bersaglio) {
         verificaCombattimentoAttivo();
         combattimentoAttivo.attaccaBersaglio(bersaglio);
         aggiornaEsitoCombattimento();
     }
 
+    /**
+     * Fa difendere il personaggio di turno e aggiorna l’esito dello scontro.
+     * @throws IllegalStateException se non esiste uno scontro attivo
+     */
     public void alzaDifesa() {
         verificaCombattimentoAttivo();
         combattimentoAttivo.alzaDifesa();
         aggiornaEsitoCombattimento();
     }
 
+    /**
+     * Delega l’azione del nemico di turno e aggiorna l’esito dello scontro.
+     * @throws IllegalStateException se non esiste uno scontro attivo o non è il turno di un nemico
+     */
     public void eseguiTurnoNemico() {
         verificaCombattimentoAttivo();
         combattimentoAttivo.eseguiTurnoNemico();
         aggiornaEsitoCombattimento();
     }
 
+    /**
+     * Tenta l’uso di un consumabile senza avanzare il turno e aggiorna l’esito.
+     * @param consumabile oggetto da usare, non nullo
+     * @return {@code true} se è stato usato, {@code false} se l’uso non è consentito
+     * @throws IllegalStateException se non esiste uno scontro attivo
+     */
     public boolean usaConsumabile(Consumabile consumabile) {
         verificaCombattimentoAttivo();
 
@@ -187,17 +253,29 @@ public class Partita {
         return utilizzato;
     }
 
+    /**
+     * Consulta i nemici ancora vivi.
+     * @return lista non modificabile, eventualmente vuota
+     * @throws IllegalStateException se non esiste uno scontro attivo
+     */
     public List<Nemico> getNemiciVivi() {
         verificaCombattimentoAttivo();
         return combattimentoAttivo.getNemiciVivi();
     }
 
+    /**
+     * Verifica la precondizione comune delle azioni di scontro.
+     * @throws IllegalStateException se non esiste uno scontro attivo
+     */
     private void verificaCombattimentoAttivo() {
         if (combattimentoAttivo == null) {
             throw new IllegalStateException("Non è attivo un combattimento");
         }
     }
 
+    /**
+     * Conclude lo scontro attivo se il suo stato non è più in corso. Richiede uno scontro attivo.
+     */
     private void aggiornaEsitoCombattimento() {
         if (combattimentoAttivo.getStatoCombattimento()
                 != StatoCombattimento.IN_CORSO) {
@@ -205,5 +283,38 @@ public class Partita {
         }
     }
 
+    /**
+     * Indica se è presente uno scontro attivo.
+     * @return {@code true} durante uno scontro, {@code false} altrimenti
+     */
+    public boolean isInCombattimento() {
+        return combattimentoAttivo != null;
+    }
+
+    /**
+     * Indica se il giocatore è morto.
+     * @return {@code true} se il giocatore non è vivo
+     */
+    public boolean isSconfitta() {
+        return !giocatore.isVivo();
+    }
+
+    /**
+     * Consulta il personaggio di turno dello scontro attivo.
+     * @return il partecipante corrente
+     * @throws IllegalStateException se non esiste uno scontro attivo
+     */
+    public Personaggio getPersonaggioDiTurno() {
+        verificaCombattimentoAttivo();
+        return combattimentoAttivo.getPersonaggioDiTurno();
+    }
+
+    /**
+     * Restituisce una copia non modificabile degli eventi completati.
+     * @return gli identificativi degli eventi completati
+     */
+    public Set<String> getEventiCompletati() {
+        return Set.copyOf(eventiCompletati);
+    }
 
 }

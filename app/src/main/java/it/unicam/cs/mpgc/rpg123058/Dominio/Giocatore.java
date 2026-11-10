@@ -48,6 +48,10 @@ public class Giocatore extends Personaggio {
         this.armaEquipaggiata = arma;
     }
 
+    /**
+     * Rimette l’arma equipaggiata nell’inventario e libera lo slot.
+     * @return {@code true} se era equipaggiata un’arma, {@code false} altrimenti
+     */
     public boolean disequipaggiaArma(){
         if(this.armaEquipaggiata == null) return false;
 
@@ -75,6 +79,10 @@ public class Giocatore extends Personaggio {
         this.armaturaEquipaggiata = armatura;
     }
 
+    /**
+     * Rimette l’armatura equipaggiata nell’inventario e libera lo slot.
+     * @return {@code true} se era equipaggiata un’armatura, {@code false} altrimenti
+     */
     public boolean disequipaggiaArmatura(){
         if(this.armaturaEquipaggiata == null) return false;
 
@@ -170,6 +178,10 @@ public class Giocatore extends Personaggio {
         return inventario;
     }
 
+    /**
+     * Confronta la salute corrente con quella massima.
+     * @return {@code true} se sono uguali, {@code false} altrimenti
+     */
     public boolean isSaluteAlMassimo(){
         return super.getSalute() == super.getSaluteMassima();
     }

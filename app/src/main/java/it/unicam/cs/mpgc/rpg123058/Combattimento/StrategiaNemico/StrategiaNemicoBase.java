@@ -9,6 +9,12 @@ public class StrategiaNemicoBase implements StrategiaNemico {
     private final Random scelta = new Random();
 
     @Override
+    /**
+     * Estrae un attacco con probabilità 0,6 quando la salute è al massimo il 30% della massima, altrimenti 0,8; negli altri casi sceglie difesa.
+     * @param nemico nemico da valutare, non nullo
+     * @return azione estratta
+     * @throws NullPointerException se il nemico è nullo
+     */
     public AzioneNemico scegliAzione(Nemico nemico) {
         if(nemico == null) throw new NullPointerException("Nemico non può essere nullo");
 

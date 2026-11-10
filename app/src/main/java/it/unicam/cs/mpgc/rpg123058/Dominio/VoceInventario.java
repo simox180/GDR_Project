@@ -21,6 +21,13 @@ public class VoceInventario {
         this(oggetto,1);
     }
 
+    /**
+     * Crea una voce con quantità positiva.
+     * @param oggetto oggetto non nullo
+     * @param quantita numero positivo di copie
+     * @throws NullPointerException se l’oggetto è nullo
+     * @throws IllegalArgumentException se la quantità non è positiva
+     */
     public VoceInventario(@NonNull Oggetto oggetto, int quantita){
         this.oggetto = Objects.requireNonNull(
                 oggetto, "L'oggetto non può essere null"

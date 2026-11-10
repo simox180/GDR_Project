@@ -55,6 +55,11 @@ public class Combattimento {
         this.strategiaNemico = strategiaNemico;
     }
 
+    /**
+     * Restituisce il partecipante corrente di uno scontro in corso.
+     * @return il personaggio di turno
+     * @throws IllegalStateException se lo scontro è terminato o il gestore non ha un partecipante corrente
+     */
     public Personaggio getPersonaggioDiTurno(){
         if(this.getStatoCombattimento() != StatoCombattimento.IN_CORSO) throw new IllegalStateException("Il combattimento è termitato");
 
@@ -65,6 +70,10 @@ public class Combattimento {
         return partecipanteCorrente;
     }
 
+    /**
+     * Determina l’esito dalla salute del giocatore e dei nemici.
+     * @return sconfitta se il giocatore è morto, vittoria se tutti i nemici sono morti, altrimenti stato in corso
+     */
     public StatoCombattimento getStatoCombattimento(){
         if(!(this.giocatore.isVivo())) return StatoCombattimento.SCONFITTA;
 
@@ -139,6 +148,10 @@ public class Combattimento {
         return this.giocatore.usaConsumabile(consumabile);
     }
 
+    /**
+     * Attiva la difesa del personaggio di turno e avanza il turno; la difesa scade all’inizio del suo turno successivo.
+     * @throws IllegalStateException se lo scontro è terminato
+     */
     public void alzaDifesa(){
         Personaggio personaggio = this.getPersonaggioDiTurno();
         this.personaggiInDifesa.add(personaggio);
@@ -146,6 +159,10 @@ public class Combattimento {
         this.terminaTurno();
     }
 
+    /**
+     * Esegue l’azione scelta dalla strategia per il nemico di turno.
+     * @throws IllegalStateException se lo scontro è terminato o non è il turno di un nemico
+     */
     public void eseguiTurnoNemico(){
         Personaggio nemico = this.getPersonaggioDiTurno();
         if(!(this.nemici.contains(nemico))) throw new IllegalStateException("Non è il turno di un nemico");
@@ -162,6 +179,9 @@ public class Combattimento {
         }
     }
 
+    /**
+     * Avanza al prossimo partecipante vivo e cancella la sua eventuale difesa. Richiede un’azione già eseguita; a scontro terminato non avanza.
+     */
     private void terminaTurno(){
         if(this.getStatoCombattimento() != StatoCombattimento.IN_CORSO) return;
 
@@ -172,6 +192,11 @@ public class Combattimento {
         personaggiInDifesa.remove(personaggio);
     }
 
+    /**
+     * Raccoglie i bottini non nulli dei nemici, conservando ordine e duplicati.
+     * @return lista non modificabile dei bottini, eventualmente vuota
+     * @throws IllegalStateException se lo scontro non è stato vinto
+     */
     public List<Oggetto> getBottino() {
         if (getStatoCombattimento() != StatoCombattimento.VITTORIA) throw new IllegalStateException("Il combattimento deve essere vinto");
 
@@ -186,6 +211,10 @@ public class Combattimento {
         return List.copyOf(bottino);
     }
 
+    /**
+     * Filtra i nemici vivi nell’ordine originale.
+     * @return lista non modificabile dei nemici vivi, eventualmente vuota
+     */
     public List<Nemico> getNemiciVivi() {
         List<Nemico> vivi = new ArrayList<>();
 

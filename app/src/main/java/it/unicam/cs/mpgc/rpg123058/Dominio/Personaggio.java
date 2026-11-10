@@ -96,6 +96,10 @@ public abstract class Personaggio {
      */
     public int getSaluteMassima() { return saluteMassima; }
 
+    /**
+     * Restituisce l’attacco base; le sottoclassi possono includere bonus.
+     * @return l’attacco corrente
+     */
     public int getAttacco(){
         return this.getAttaccoBase();
     }
@@ -107,6 +111,10 @@ public abstract class Personaggio {
      */
     public int getAttaccoBase() { return attaccoBase; }
 
+    /**
+     * Restituisce la difesa base; le sottoclassi possono includere bonus.
+     * @return la difesa corrente
+     */
     public int getDifesa(){
         return this.getDifesaBase();
     }

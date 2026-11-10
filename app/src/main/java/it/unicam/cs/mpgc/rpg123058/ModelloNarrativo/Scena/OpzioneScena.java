@@ -9,6 +9,14 @@ public record OpzioneScena(
         Set<String> eventiRichiesti,
         Set<String> eventiEsclusi
 ) {
+    /**
+     * Valida le condizioni della scelta e copia i due insiemi. Le condizioni non possono contenere identificativi blank né eventi presenti in entrambi gli insiemi.
+     * @param scelta scelta associata, non nulla
+     * @param eventiRichiesti eventi tutti necessari, non nulli
+     * @param eventiEsclusi eventi che impediscono la scelta, non nulli
+     * @throws NullPointerException se un argomento o un elemento degli insiemi è nullo
+     * @throws IllegalArgumentException se un identificativo è blank o compare in entrambi gli insiemi
+     */
     public OpzioneScena {
         if(scelta == null || eventiRichiesti == null || eventiEsclusi == null) throw new NullPointerException("pArametri nulli non ammessi");
 
@@ -29,6 +37,12 @@ public record OpzioneScena(
         }
     }
 
+    /**
+     * Verifica le condizioni senza modificare gli eventi.
+     * @param eventiCompletati progressi da consultare, non nulli
+     * @return {@code true} se tutti i richiesti sono presenti e nessun escluso è presente; {@code false} altrimenti
+     * @throws NullPointerException se l’insieme è nullo
+     */
     public boolean isDisponibile(Set<String> eventiCompletati) {
         if(eventiCompletati == null) throw new NullPointerException("Set di eventi nullo");
         if(!(eventiCompletati.containsAll(this.eventiRichiesti))) return false;

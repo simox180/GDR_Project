@@ -14,7 +14,16 @@ public abstract class Consumabile extends Oggetto {
         super(nome);
     }
 
+    /**
+     * Verifica se l’effetto può essere applicato al giocatore.
+     * @param giocatore destinatario da valutare
+     * @return {@code true} se l’uso è consentito
+     */
     public abstract boolean puoEssereUsato(Giocatore giocatore);
 
+    /**
+     * Applica l’effetto al giocatore.
+     * @param giocatore destinatario dell’effetto
+     */
     public abstract void applicaEffetto(Giocatore giocatore);
 }
