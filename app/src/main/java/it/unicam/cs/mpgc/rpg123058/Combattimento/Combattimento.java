@@ -4,10 +4,7 @@ import it.unicam.cs.mpgc.rpg123058.Combattimento.CalcolatoreDanno.CalcolatoreDan
 import it.unicam.cs.mpgc.rpg123058.Combattimento.GestoreTurni.GestoreTurni;
 import it.unicam.cs.mpgc.rpg123058.Combattimento.StrategiaNemico.AzioneNemico;
 import it.unicam.cs.mpgc.rpg123058.Combattimento.StrategiaNemico.StrategiaNemico;
-import it.unicam.cs.mpgc.rpg123058.Dominio.Consumabile;
-import it.unicam.cs.mpgc.rpg123058.Dominio.Giocatore;
-import it.unicam.cs.mpgc.rpg123058.Dominio.Nemico;
-import it.unicam.cs.mpgc.rpg123058.Dominio.Personaggio;
+import it.unicam.cs.mpgc.rpg123058.Dominio.*;
 import it.unicam.cs.mpgc.rpg123058.Utility;
 
 import java.util.*;
@@ -173,5 +170,29 @@ public class Combattimento {
         Personaggio personaggio = this.getPersonaggioDiTurno();
 
         personaggiInDifesa.remove(personaggio);
+    }
+
+    public List<Oggetto> getBottino() {
+        if (getStatoCombattimento() != StatoCombattimento.VITTORIA) throw new IllegalStateException("Il combattimento deve essere vinto");
+
+        List<Oggetto> bottino = new ArrayList<>();
+
+        for (Nemico nemico : nemici) {
+            Oggetto oggetto = nemico.getBottino();
+
+            if (oggetto != null) bottino.add(oggetto);
+        }
+
+        return List.copyOf(bottino);
+    }
+
+    public List<Nemico> getNemiciVivi() {
+        List<Nemico> vivi = new ArrayList<>();
+
+        for (Nemico nemico : nemici) {
+            if (nemico.isVivo()) vivi.add(nemico);
+        }
+
+        return List.copyOf(vivi);
     }
 }

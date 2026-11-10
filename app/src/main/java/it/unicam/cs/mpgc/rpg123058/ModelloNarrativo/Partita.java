@@ -1,8 +1,8 @@
 package it.unicam.cs.mpgc.rpg123058.ModelloNarrativo;
 
 import it.unicam.cs.mpgc.rpg123058.Combattimento.Combattimento;
-import it.unicam.cs.mpgc.rpg123058.Dominio.Giocatore;
-import it.unicam.cs.mpgc.rpg123058.Dominio.Oggetto;
+import it.unicam.cs.mpgc.rpg123058.Combattimento.StatoCombattimento;
+import it.unicam.cs.mpgc.rpg123058.Dominio.*;
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scelta.Scelta;
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scelta.SceltaCombattimento;
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scelta.SceltaNavigazione;
@@ -27,6 +27,7 @@ public class Partita {
     public Partita(Giocatore giocatore, List<Scena> scene, String idScenaIniziale, Map<String, Oggetto> oggetti, Map<String, Function<Giocatore, Combattimento>> incontri){
         if(giocatore == null || scene == null || idScenaIniziale == null || oggetti == null || incontri == null) throw new NullPointerException("Parametri nulli non ammessi");
         if(idScenaIniziale.isBlank()) throw new IllegalArgumentException("Id scen iniziale buoto o contiene solo spazi");
+        if (!giocatore.isVivo()) throw new IllegalArgumentException("Il giocatore deve essere vivo");
 
         Map<String, Scena> mappaTemporanea = new HashMap<>();
 
@@ -44,20 +45,32 @@ public class Partita {
             mappaTemporanea.put(idScena, scena);
         }
 
+        if (!mappaTemporanea.containsKey(idScenaIniziale)) throw new IllegalArgumentException("Scena iniziale inesistente: " + idScenaIniziale);
+
+        this.oggetti = Map.copyOf(oggetti);
+        this.incontri = Map.copyOf(incontri);
+
+        for (String idOggetto : this.oggetti.keySet()) {
+            if (idOggetto.isBlank()) throw new IllegalArgumentException("ID oggetto vuoto");
+        }
+
+        for (String idIncontro : this.incontri.keySet()) {
+            if (idIncontro.isBlank()) throw new IllegalArgumentException("ID incontro vuoto");
+        }
+
         this.scene = Map.copyOf(mappaTemporanea);
         this.giocatore = giocatore;
         this.idScenaCorrente = idScenaIniziale;
-        this.oggetti = Map.copyOf(oggetti);
-        this.incontri = Map.copyOf(incontri);
+
     }
 
     public void eseguiScelta(Scelta scelta){
         if(scelta == null) throw new NullPointerException("Scelta nulla non ammessa");
         if(!(this.giocatore.isVivo())) throw new IllegalStateException("Il giocatore deve essere vivo");
 
-        if(!(this.getScelteDisponibili().contains(scelta))) throw new IllegalArgumentException("La scelta non appartiene alla scena corrente o non è disponibile");
-
         if (combattimentoAttivo != null) throw new IllegalStateException("Devi prima concludere il combattimento attivo");
+
+        if(!(this.getScelteDisponibili().contains(scelta))) throw new IllegalArgumentException("La scelta non appartiene alla scena corrente o non è disponibile");
 
         // Tramite questo switch case con Pattern Matching eseguo un metodo diverso a seconda del tipo di Scelta
         switch (scelta) {
@@ -118,6 +131,79 @@ public class Partita {
     }
 
     public List<Scelta> getScelteDisponibili() {
+        //per evitare di mostrare scelte durante uno scontro o dopo la morte
+        if (!giocatore.isVivo() || combattimentoAttivo != null) return List.of();
+
         return getScenaCorrente().getScelteDisponibili(eventiCompletati);
     }
+
+    private void concludiCombattimento(){
+        if(this.combattimentoAttivo == null) throw new IllegalStateException("Non è attivo un combattimento");
+
+        StatoCombattimento stato =
+                this.combattimentoAttivo.getStatoCombattimento();
+
+        if (stato == StatoCombattimento.IN_CORSO) {
+            throw new IllegalStateException("Il combattimento è ancora in corso");
+        }
+
+        //il bottino viene assegnato solo se il combattimento è stato vinto
+        if(stato == StatoCombattimento.VITTORIA){
+            List<Oggetto> listaBottino = this.combattimentoAttivo.getBottino();
+            for(Oggetto oggetto : listaBottino){
+                this.giocatore.getInventario().inserisciOggetto(oggetto);
+            }
+            this.eventiCompletati.add("vittoria:" + idIncontroAttivo);
+        }
+
+        this.combattimentoAttivo = null;
+        this.idIncontroAttivo = null;
+    }
+
+    public void attaccaBersaglio(Personaggio bersaglio) {
+        verificaCombattimentoAttivo();
+        combattimentoAttivo.attaccaBersaglio(bersaglio);
+        aggiornaEsitoCombattimento();
+    }
+
+    public void alzaDifesa() {
+        verificaCombattimentoAttivo();
+        combattimentoAttivo.alzaDifesa();
+        aggiornaEsitoCombattimento();
+    }
+
+    public void eseguiTurnoNemico() {
+        verificaCombattimentoAttivo();
+        combattimentoAttivo.eseguiTurnoNemico();
+        aggiornaEsitoCombattimento();
+    }
+
+    public boolean usaConsumabile(Consumabile consumabile) {
+        verificaCombattimentoAttivo();
+
+        boolean utilizzato = combattimentoAttivo.usaConsumabile(consumabile);
+
+        aggiornaEsitoCombattimento();
+        return utilizzato;
+    }
+
+    public List<Nemico> getNemiciVivi() {
+        verificaCombattimentoAttivo();
+        return combattimentoAttivo.getNemiciVivi();
+    }
+
+    private void verificaCombattimentoAttivo() {
+        if (combattimentoAttivo == null) {
+            throw new IllegalStateException("Non è attivo un combattimento");
+        }
+    }
+
+    private void aggiornaEsitoCombattimento() {
+        if (combattimentoAttivo.getStatoCombattimento()
+                != StatoCombattimento.IN_CORSO) {
+            concludiCombattimento();
+        }
+    }
+
+
 }
