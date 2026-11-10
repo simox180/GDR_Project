@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg123058.ModelloNarrativo;
+package it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scena;
 
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scelta.Scelta;
 

@@ -1,4 +1,4 @@
-package it.unicam.cs.mpgc.rpg123058.ModelloNarrativo;
+package it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scena;
 
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scelta.Scelta;
 
@@ -35,13 +35,25 @@ public class Scena {
     public List<Scelta> getScelteDisponibili(Set<String> eventiCompletati) {
         if(eventiCompletati == null) throw new NullPointerException("Set nullo non ammesso");
 
-        List<Scelta> scelteDisponinili = new ArrayList<>();
+        List<Scelta> scelteDisponibili = new ArrayList<>();
 
         // seleziona solo le scelte disponibili secondo gli eventi completati
         for(OpzioneScena opzione : opzioni){
-            if(opzione.isDisponibile(eventiCompletati)) scelteDisponinili.add(opzione.scelta());
+            if(opzione.isDisponibile(eventiCompletati)) scelteDisponibili.add(opzione.scelta());
         }
 
-        return List.copyOf(scelteDisponinili);
+        return List.copyOf(scelteDisponibili);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTitolo() {
+        return titolo;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
     }
 }
