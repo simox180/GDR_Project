@@ -16,7 +16,7 @@
     {
       "tipo": "NAVIGAZIONE",
       "id": "attraversa_ponte",
-      "testo": "Attraversa il ponte con la tua compagna",
+      "testo": "Attraversa il ponte con il tuo compagno",
       "idScenaDestinazione": "primo_sole",
       "eventiRichiesti": [
         "capitano_orchi"

@@ -9,7 +9,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.Strictness;
 //------------------------------------------------
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
@@ -72,12 +71,12 @@ public class CaricatoreScene {
         ) {
             JsonElement documento = gson.fromJson(reader, JsonElement.class);
 
-            if (documento == null || !documento.isJsonObject()) throw new IllegalArgumentException("La scena deve contenere un oggetto JSON: " + nomeFile);
+            if (documento == null || !documento.isJsonObject()) throw new IllegalArgumentException("La scena deve contenere un oggetto JSON");
 
             return documento.getAsJsonObject();//da qui leggiamo i campidell 'oggetto
 
-        } catch (JsonParseException e) { throw new IllegalArgumentException("JSON non valido nel file");
-        } catch (IOException e) {throw new IllegalStateException("Errore di lettura del file");
+        } catch (JsonParseException e) { throw new IllegalArgumentException("JSON non valido nel file " + e);
+        } catch (IOException e) {throw new IllegalStateException("Errore di lettura del file " + e);
         }
     }
 
