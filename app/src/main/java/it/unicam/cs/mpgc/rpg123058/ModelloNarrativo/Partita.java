@@ -122,7 +122,7 @@ public class Partita {
      * @throws IllegalArgumentException se l’oggetto non è nel catalogo
      */
     private void eseguiRaccolta(SceltaRaccolta scelta) {
-        String evento = "raccolta:" + idScenaCorrente + ":" + scelta.id();
+        String evento = scelta.id();
 
         if (eventiCompletati.contains(evento)) throw new IllegalStateException("Raccolta già effettuata");
 
@@ -143,7 +143,7 @@ public class Partita {
     private void eseguiCombattimento(SceltaCombattimento scelta) {
         String idIncontro = scelta.idCombattimento();
 
-        if (eventiCompletati.contains("vittoria:" + idIncontro)) throw new IllegalStateException("Incontro già completato");
+        if (eventiCompletati.contains(idIncontro)) throw new IllegalStateException("Incontro già completato");
 
         //Funzione locale/temporanea che riceve un Giocatore e restituisce un Combattimento
         //recupera la funzione dalla mappa incontri e la esegue con apply
@@ -199,7 +199,7 @@ public class Partita {
             for(Oggetto oggetto : listaBottino){
                 this.giocatore.getInventario().inserisciOggetto(oggetto);
             }
-            this.eventiCompletati.add("vittoria:" + idIncontroAttivo);
+            this.eventiCompletati.add(idIncontroAttivo);
         }
 
         this.combattimentoAttivo = null;

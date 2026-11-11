@@ -19,7 +19,7 @@ public class GestoreTurniSequenziale implements GestoreTurni {
      */
     public GestoreTurniSequenziale(List<Personaggio> partecipanti){
         if (partecipanti == null) throw new NullPointerException("La lista non può essere null");
-
+        //List.contanis(null) lancia eccezione
         for (Personaggio partecipante : partecipanti) {
             if (partecipante == null) throw new NullPointerException("Un partecipante è null");
         }

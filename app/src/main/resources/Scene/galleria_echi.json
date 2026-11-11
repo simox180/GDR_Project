@@ -1,0 +1,35 @@
+{
+  "id": "galleria_echi",
+  "titolo": "La galleria degli echi",
+  "descrizione": "Ogni passo risuona tra le colonne della galleria. Tracce di un accampamento e rozzi simboli sulle pareti rivelano il passaggio degli Orchi.\n\nIl percorso verso le sale superiori attraversa il loro posto di pattuglia. Una porta laterale conduce invece alla sala dei registri.",
+  "opzioni": [
+    {
+      "tipo": "COMBATTIMENTO",
+      "id": "affronta_pattuglia_galleria",
+      "testo": "Affronta la pattuglia di Orchi",
+      "idCombattimento": "orchi_galleria",
+      "eventiRichiesti": [],
+      "eventiEsclusi": [
+        "orchi_galleria"
+      ]
+    },
+    {
+      "tipo": "NAVIGAZIONE",
+      "id": "esplora_sala_registri",
+      "testo": "Esplora la sala dei registri",
+      "idScenaDestinazione": "sala_registri",
+      "eventiRichiesti": [],
+      "eventiEsclusi": []
+    },
+    {
+      "tipo": "NAVIGAZIONE",
+      "id": "raggiungi_compagno",
+      "testo": "Prosegui verso le sale superiori",
+      "idScenaDestinazione": "compagno_ferito",
+      "eventiRichiesti": [
+        "orchi_galleria"
+      ],
+      "eventiEsclusi": []
+    }
+  ]
+}

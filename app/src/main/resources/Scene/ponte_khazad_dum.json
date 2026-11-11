@@ -1,0 +1,27 @@
+{
+  "id": "ponte_khazad_dum",
+  "titolo": "Il ponte di Khazad-dûm",
+  "descrizione": "Una sottile striscia di pietra attraversa l'abisso. Oltre il ponte, una scalinata conduce verso un chiarore lontano.\n\nQuesto è l'ultimo passaggio sorvegliato dal capitano degli Orchi. Alle vostre spalle il calore cresce, mentre il tuo compagno tiene pronta la fiasca d'olio.",
+  "opzioni": [
+    {
+      "tipo": "COMBATTIMENTO",
+      "id": "affronta_capitano",
+      "testo": "Affronta il capitano degli Orchi",
+      "idCombattimento": "capitano_orchi",
+      "eventiRichiesti": [],
+      "eventiEsclusi": [
+        "capitano_orchi"
+      ]
+    },
+    {
+      "tipo": "NAVIGAZIONE",
+      "id": "attraversa_ponte",
+      "testo": "Attraversa il ponte con la tua compagna",
+      "idScenaDestinazione": "primo_sole",
+      "eventiRichiesti": [
+        "capitano_orchi"
+      ],
+      "eventiEsclusi": []
+    }
+  ]
+}

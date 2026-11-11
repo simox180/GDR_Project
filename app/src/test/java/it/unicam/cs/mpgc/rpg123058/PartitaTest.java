@@ -16,8 +16,8 @@ import java.util.function.Function;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PartitaTest {
-    private static final String RACCOLTA = "raccolta:inizio:prendi";
-    private static final String VITTORIA = "vittoria:guardia";
+    private static final String RACCOLTA = "prendi";
+    private static final String VITTORIA = "guardia";
 
     private Combattimento incontro(Giocatore giocatore, Oggetto bottino) {
         return new Combattimento(giocatore, List.of(new Nemico("Guardia", 5, 1, 0, bottino)),
@@ -84,7 +84,7 @@ class PartitaTest {
         assertThrows(IllegalStateException.class, () -> partita.eseguiScelta(a));
         partita.eseguiScelta(b);
         assertEquals(2, giocatore.getInventario().consultaInventario().get(0).getQuantita());
-        assertEquals(Set.of("raccolta:s:a", "raccolta:s:b"), partita.getEventiCompletati());
+        assertEquals(Set.of("a", "b"), partita.getEventiCompletati());
     }
 
     @Test

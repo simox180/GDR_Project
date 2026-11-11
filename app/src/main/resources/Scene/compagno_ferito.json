@@ -1,0 +1,35 @@
+{
+  "id": "compagno_ferito",
+  "titolo": "Il compagno ferito",
+  "descrizione": "Ritrovi il tuo compagno seduto contro una colonna, con una fasciatura stretta alla gamba. Può ancora camminare, ma ogni passo gli costa fatica. Stringe una piccola fiasca d'olio, conservata per l'ultima lanterna.\n\nIl capitano degli Orchi ha mandato i suoi inseguitori lungo questo passaggio. Per raggiungere il ponte dovrete attraversarlo. Poco distante si apre un vecchio deposito.",
+  "opzioni": [
+    {
+      "tipo": "COMBATTIMENTO",
+      "id": "affronta_inseguitori",
+      "testo": "Affronta gli Orchi inseguitori",
+      "idCombattimento": "orchi_inseguitori",
+      "eventiRichiesti": [],
+      "eventiEsclusi": [
+        "orchi_inseguitori"
+      ]
+    },
+    {
+      "tipo": "NAVIGAZIONE",
+      "id": "esplora_ultima_riserva",
+      "testo": "Esplora il deposito",
+      "idScenaDestinazione": "ultima_riserva",
+      "eventiRichiesti": [],
+      "eventiEsclusi": []
+    },
+    {
+      "tipo": "NAVIGAZIONE",
+      "id": "prosegui_profondita",
+      "testo": "Prosegui con il tuo compagno verso il ponte",
+      "idScenaDestinazione": "qualcosa_nelle_profondita",
+      "eventiRichiesti": [
+        "orchi_inseguitori"
+      ],
+      "eventiEsclusi": []
+    }
+  ]
+}

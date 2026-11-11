@@ -24,10 +24,8 @@ public record OpzioneScena(
         eventiEsclusi = Set.copyOf(eventiEsclusi);
 
         for (String evento : eventiRichiesti) {
-            if (evento.isBlank()) {
-                throw new IllegalArgumentException(
-                        "Gli identificativi degli eventi richiesti non possono essere vuoti");
-            }
+            if (evento.isBlank()) throw new IllegalArgumentException("Gli identificativi degli eventi richiesti non possono essere vuoti");
+
 
             if (eventiEsclusi.contains(evento)) throw new IllegalArgumentException("Un evento non può essere sia richiesto sia escluso: " + evento);
         }

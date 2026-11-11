@@ -1,0 +1,23 @@
+{
+  "id": "strada_interrotta",
+  "titolo": "La strada interrotta",
+  "descrizione": "La strada scompare sotto un cumulo di pietre. Oltre il crollo senti il rumore lontano di passi e ferro battuto.\n\nUna scalinata scende verso la galleria degli echi. Sul lato opposto, la porta di un antico posto di guardia è ancora aperta.",
+  "opzioni": [
+    {
+      "tipo": "NAVIGAZIONE",
+      "id": "esplora_posto_guardia",
+      "testo": "Esplora il posto di guardia",
+      "idScenaDestinazione": "segni_sulle_pareti",
+      "eventiRichiesti": [],
+      "eventiEsclusi": []
+    },
+    {
+      "tipo": "NAVIGAZIONE",
+      "id": "scendi_galleria_echi",
+      "testo": "Scendi nella galleria degli echi",
+      "idScenaDestinazione": "galleria_echi",
+      "eventiRichiesti": [],
+      "eventiEsclusi": []
+    }
+  ]
+}

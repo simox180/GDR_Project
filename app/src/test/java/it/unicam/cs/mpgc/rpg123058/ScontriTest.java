@@ -11,7 +11,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PersonaggiTest {
+class ScontriTest {
     private Combattimento scontro(Giocatore g, List<Nemico> nemici, StrategiaNemico strategia) {
         return new Combattimento(g, nemici, GestoreTurniSequenziale::new, new CalcolatoreDannoBase(), strategia);
     }

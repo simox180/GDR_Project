@@ -1,0 +1,35 @@
+{
+  "id": "segni_sulle_pareti",
+  "titolo": "I segni sulle pareti",
+  "descrizione": "Nel posto di guardia, profonde incisioni segnano la pietra accanto alla porta. Qualcuno ha contato i giorni trascorsi qui, fino a interrompersi a metà di una riga.\n\nDentro una cassa trovi del pane ancora avvolto in un telo. Uno scudo nanico è appoggiato contro la parete.",
+  "opzioni": [
+    {
+      "tipo": "RACCOLTA",
+      "id": "raccogli_pane_posto_guardia",
+      "testo": "Raccogli il pane",
+      "idOggetto": "pane",
+      "eventiRichiesti": [],
+      "eventiEsclusi": [
+        "raccogli_pane_posto_guardia"
+      ]
+    },
+    {
+      "tipo": "RACCOLTA",
+      "id": "raccogli_scudo_posto_guardia",
+      "testo": "Raccogli lo scudo nanico",
+      "idOggetto": "scudo_nanico",
+      "eventiRichiesti": [],
+      "eventiEsclusi": [
+        "raccogli_scudo_posto_guardia"
+      ]
+    },
+    {
+      "tipo": "NAVIGAZIONE",
+      "id": "torna_strada_interrotta",
+      "testo": "Torna alla strada interrotta",
+      "idScenaDestinazione": "strada_interrotta",
+      "eventiRichiesti": [],
+      "eventiEsclusi": []
+    }
+  ]
+}
