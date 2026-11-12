@@ -1,6 +1,7 @@
 {
   "id": "compagno_ferito",
   "titolo": "Il compagno ferito",
+  "percorsoImmagine": "/Immagini/compagno_ferito.png",
   "descrizione": "Ritrovi il tuo compagno seduto contro una colonna, con una fasciatura stretta alla gamba. Può ancora camminare, ma ogni passo gli costa fatica. Stringe una piccola fiasca d'olio, conservata per l'ultima lanterna.\n\nIl capitano degli Orchi ha mandato i suoi inseguitori lungo questo passaggio. Per raggiungere il ponte dovrete attraversarlo. Poco distante si apre un vecchio deposito.",
   "opzioni": [
     {

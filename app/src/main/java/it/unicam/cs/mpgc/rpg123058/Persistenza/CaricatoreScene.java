@@ -113,23 +113,11 @@ public class CaricatoreScene {
 
         //legge il tipo restituendo/costruendo il record che rappresenta il tipo di scelta corrispondente
         return switch (tipo) {
-            case "NAVIGAZIONE" -> new SceltaNavigazione(
-                    id,
-                    testo,
-                    leggiStringa(opzione, "idScenaDestinazione")
-            );
+            case "NAVIGAZIONE" -> new SceltaNavigazione(id, testo, leggiStringa(opzione, "idScenaDestinazione"));
 
-            case "RACCOLTA" -> new SceltaRaccolta(
-                    id,
-                    testo,
-                    leggiStringa(opzione, "idOggetto")
-            );
+            case "RACCOLTA" -> new SceltaRaccolta(id, testo, leggiStringa(opzione, "idOggetto"));
 
-            case "COMBATTIMENTO" -> new SceltaCombattimento(
-                    id,
-                    testo,
-                    leggiStringa(opzione, "idCombattimento")
-            );
+            case "COMBATTIMENTO" -> new SceltaCombattimento(id, testo, leggiStringa(opzione, "idCombattimento"));
 
             default -> throw new IllegalArgumentException("Tipo di scelta non riconosciuto: ");
         };
@@ -191,6 +179,7 @@ public class CaricatoreScene {
         //recupera i campi principali
         String id = leggiStringa(documento, "id");
         String titolo = leggiStringa(documento, "titolo");
+        String percorsoImmagine = leggiStringa(documento, "percorsoImmagine");
         String descrizione = leggiStringa(documento, "descrizione");
 
         if (!nomeFile.equals(id + ".json")) throw new IllegalArgumentException("Il nome del file deve corrispondere all'id della scena");
@@ -212,7 +201,7 @@ public class CaricatoreScene {
             opzioni.add(opzione);
         }
 
-        return new Scena(id, titolo, descrizione, opzioni);
+        return new Scena(id, titolo, descrizione, percorsoImmagine, opzioni);
     }
 
     /**
@@ -225,7 +214,9 @@ public class CaricatoreScene {
     public List<Scena> caricaScene(List<String> nomiFile) {
         if (nomiFile == null) throw new NullPointerException("Lista dei file nulla");
 
+        //lista di scene caricate che verrà restituita
         List<Scena> scene = new ArrayList<>();
+        //lista temporanea per controllare gli ID
         Set<String> idScene = new HashSet<>();
 
         for (String nomeFile : nomiFile) {

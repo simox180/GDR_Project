@@ -22,8 +22,7 @@ public class ConfigurazionePartita {
 
     public Partita creaNuovaPartita(String nomeGiocatore) {
 
-        Giocatore giocatore = new Giocatore(
-                nomeGiocatore, 100, 8, 2);
+        Giocatore giocatore = new Giocatore(nomeGiocatore, 100, 8, 2);
 
         CaricatoreScene caricatore = new CaricatoreScene();
         //caricamento di tutte le scene della storia da 'resources'
@@ -42,10 +41,11 @@ public class ConfigurazionePartita {
                 "primo_sole.json"
         ));
 
-        //catalogo degli Oggetti
+        //catalogo degli Oggetti che passiamo al CatalogoIncontri per associarli al bottino dei nemici e per le scene di raccolta
         CatalogoOggetti catalogoOggetti = new CatalogoOggetti();
         Map<String, Oggetto> oggetti = catalogoOggetti.creaCatalogo();
 
+        //funzione che crea un gestoreTurni per ogni combattimento
         Function<List<Personaggio>, GestoreTurni> creaGestore = partecipanti -> new GestoreTurniSequenziale(partecipanti);
 
         CalcolatoreDanno calcolatoreDanno = new CalcolatoreDannoBase();

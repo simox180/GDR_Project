@@ -1,6 +1,7 @@
 {
   "id": "galleria_echi",
   "titolo": "La galleria degli echi",
+  "percorsoImmagine": "/Immagini/galleria_echi.png",
   "descrizione": "Ogni passo risuona tra le colonne della galleria. Tracce di un accampamento e rozzi simboli sulle pareti rivelano il passaggio degli Orchi.\n\nIl percorso verso le sale superiori attraversa il loro posto di pattuglia. Una porta laterale conduce invece alla sala dei registri.",
   "opzioni": [
     {

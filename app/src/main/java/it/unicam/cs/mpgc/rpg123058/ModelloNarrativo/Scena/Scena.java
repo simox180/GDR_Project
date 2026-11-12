@@ -10,6 +10,7 @@ import java.util.Set;
 public class Scena {
     private final String id;
     private final String titolo;
+    private final String percorsoImmagine;
     private final String descrizione;
     private final List<OpzioneScena> opzioni;
 
@@ -22,9 +23,9 @@ public class Scena {
      * @throws NullPointerException se un argomento o un’opzione è nullo
      * @throws IllegalArgumentException se una stringa è blank o un identificativo di scelta è duplicato
      */
-    public Scena(String id, String titolo, String descrizione, List<OpzioneScena> opzioni) {
-        if(id == null || titolo == null || descrizione == null || opzioni == null) throw new NullPointerException("Parametri nulli non ammessi");
-        if(id.isBlank() || titolo.isBlank() || descrizione.isBlank()) throw new IllegalArgumentException("Stringe vuote o contenenti solo spazi non ammesse");
+    public Scena(String id, String titolo, String percorsoImmagine, String descrizione, List<OpzioneScena> opzioni) {
+        if(id == null || titolo == null || descrizione == null || opzioni == null || percorsoImmagine == null) throw new NullPointerException("Parametri nulli non ammessi");
+        if(id.isBlank() || titolo.isBlank() || descrizione.isBlank() || percorsoImmagine.isBlank()) throw new IllegalArgumentException("Stringe vuote o contenenti solo spazi non ammesse");
 
         this.opzioni = List.copyOf(opzioni);
 
@@ -38,7 +39,9 @@ public class Scena {
 
         this.id = id;
         this.titolo = titolo;
+        this.percorsoImmagine = percorsoImmagine;
         this.descrizione = descrizione;
+
     }
 
     /**
@@ -74,6 +77,14 @@ public class Scena {
      */
     public String getTitolo() {
         return titolo;
+    }
+
+    /**
+     * Restituisce il percorso dell'immagine della scena.
+     * @return percorso da resources  (/Immagini/..)
+     */
+    public String getPercorsoImmagine() {
+        return percorsoImmagine;
     }
 
     /**

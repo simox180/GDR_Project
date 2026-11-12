@@ -1,6 +1,7 @@
 {
   "id": "ponte_khazad_dum",
   "titolo": "Il ponte di Khazad-dûm",
+  "percorsoImmagine": "/Immagini/ponte_khazad_dum.png",
   "descrizione": "Una sottile striscia di pietra attraversa l'abisso. Oltre il ponte, una scalinata conduce verso un chiarore lontano.\n\nQuesto è l'ultimo passaggio sorvegliato dal capitano degli Orchi. Alle vostre spalle il calore cresce, mentre il tuo compagno tiene pronta la fiasca d'olio.",
   "opzioni": [
     {
