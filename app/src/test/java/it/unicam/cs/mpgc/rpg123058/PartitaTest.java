@@ -32,11 +32,11 @@ class PartitaTest {
         var raccolta = new SceltaRaccolta("prendi", "Prendi", "chiave");
         var battaglia = new SceltaCombattimento("lotta", "Lotta", "guardia");
         var uscita = new SceltaNavigazione("esci", "Esci", "fine");
-        var inizio = new Scena("inizio", "Inizio", "Descrizione", List.of(
+        var inizio = new Scena("inizio", "Inizio", "/Immagini/inizio.png", "Descrizione", List.of(
                 new OpzioneScena(raccolta, Set.of(), Set.of(RACCOLTA)),
                 new OpzioneScena(battaglia, Set.of(RACCOLTA), Set.of(VITTORIA)),
                 new OpzioneScena(uscita, Set.of(VITTORIA), Set.of())));
-        var fine = new Scena("fine", "Fine", "Conclusione", List.of());
+        var fine = new Scena("fine", "Fine", "/Immagini/fine.png", "Conclusione", List.of());
         var scene = new ArrayList<>(List.of(inizio, fine));
         var oggetti = new HashMap<String, Oggetto>(Map.of("chiave", oggetto));
         var incontri = new HashMap<String, Function<Giocatore, Combattimento>>(Map.of("guardia", g -> incontro(g, bottino)));
@@ -78,7 +78,7 @@ class PartitaTest {
         var giocatore = new Giocatore("Ada", 30, 10, 0);
         var a = new SceltaRaccolta("a", "Uno", "o");
         var b = new SceltaRaccolta("b", "Due", "o");
-        var scena = new Scena("s", "T", "D", List.of(new OpzioneScena(a, Set.of(), Set.of()), new OpzioneScena(b, Set.of(), Set.of())));
+        var scena = new Scena("s", "T", "/Immagini/prova.png", "D", List.of(new OpzioneScena(a, Set.of(), Set.of()), new OpzioneScena(b, Set.of(), Set.of())));
         var partita = new Partita(giocatore, List.of(scena), "s", Map.of("o", new Arma("Spada", 1)), Map.of());
         partita.eseguiScelta(a);
         assertThrows(IllegalStateException.class, () -> partita.eseguiScelta(a));
@@ -94,7 +94,7 @@ class PartitaTest {
         var c = new SceltaCombattimento("c", "C", "assente");
         var n = new SceltaNavigazione("n", "N", "assente");
         var z = new SceltaCombattimento("z", "Z", "nullo");
-        var scena = new Scena("s", "T", "D", List.of(r, c, n, z).stream().map(x -> new OpzioneScena(x, Set.of(), Set.of())).toList());
+        var scena = new Scena("s", "T", "/Immagini/prova.png", "D", List.of(r, c, n, z).stream().map(x -> new OpzioneScena(x, Set.of(), Set.of())).toList());
         var partita = new Partita(giocatore, List.of(scena), "s", Map.of(), Map.of("nullo", g -> null));
         for (var scelta : List.of(r, c, n)) assertThrows(IllegalArgumentException.class, () -> partita.eseguiScelta(scelta));
         assertThrows(IllegalStateException.class, () -> partita.eseguiScelta(z));
@@ -107,7 +107,7 @@ class PartitaTest {
     @Test
     void costruttoreRifiutaDatiInvalidi() {
         var g = new Giocatore("Ada", 10, 2, 0);
-        var s = new Scena("s", "T", "D", List.of());
+        var s = new Scena("s", "T", "/Immagini/prova.png", "D", List.of());
         assertThrows(NullPointerException.class, () -> new Partita(null, List.of(s), "s", Map.of(), Map.of()));
         assertThrows(NullPointerException.class, () -> new Partita(g, null, "s", Map.of(), Map.of()));
         assertThrows(IllegalArgumentException.class, () -> new Partita(g, List.of(s), " ", Map.of(), Map.of()));
@@ -128,7 +128,7 @@ class PartitaTest {
         var bottino = new Arma("Premio", 1);
         var lotta = new SceltaCombattimento("lotta", "Lotta", "i");
         var uscita = new SceltaNavigazione("via", "Via", "s");
-        var s = new Scena("s", "T", "D", List.of(
+        var s = new Scena("s", "T", "/Immagini/prova.png", "D", List.of(
                 new OpzioneScena(lotta, Set.of(), Set.of()),
                 new OpzioneScena(uscita, Set.of("vittoria:i"), Set.of())));
         var p = new Partita(g, List.of(s), "s", Map.of(), Map.of("i", x ->

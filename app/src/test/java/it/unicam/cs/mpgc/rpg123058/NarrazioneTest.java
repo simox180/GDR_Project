@@ -56,7 +56,7 @@ class NarrazioneTest {
         var opzioni = new ArrayList<>(List.of(new OpzioneScena(prima, Set.of(), Set.of()),
                 new OpzioneScena(seconda, Set.of("ok"), Set.of()),
                 new OpzioneScena(terza, Set.of(), Set.of())));
-        var scena = new Scena("s", "Titolo", "Testo", opzioni);
+        var scena = new Scena("s", "Titolo", "/Immagini/prova.png", "Testo", opzioni);
         opzioni.clear();
         var eventi = new HashSet<>(Set.of("ok"));
         var visibili = scena.getScelteDisponibili(eventi);
@@ -70,15 +70,28 @@ class NarrazioneTest {
     @Test
     void scenaRifiutaDatiOpzioniEIdDuplicati() {
         var opzione = new OpzioneScena(new SceltaNavigazione("id", "Vai", "b"), Set.of(), Set.of());
-        assertThrows(NullPointerException.class, () -> new Scena(null, "t", "d", List.of()));
-        assertThrows(IllegalArgumentException.class, () -> new Scena(" ", "t", "d", List.of()));
-        assertThrows(IllegalArgumentException.class, () -> new Scena("s", " ", "d", List.of()));
-        assertThrows(IllegalArgumentException.class, () -> new Scena("s", "t", " ", List.of()));
-        assertThrows(NullPointerException.class, () -> new Scena("s", "t", "d", null));
-        assertThrows(NullPointerException.class, () -> new Scena("s", "t", "d", Arrays.asList((OpzioneScena) null)));
-        assertThrows(IllegalArgumentException.class, () -> new Scena("s", "t", "d", List.of(opzione,
+        assertThrows(NullPointerException.class, () -> new Scena(null, "t", "/Immagini/prova.png", "d", List.of()));
+        assertThrows(IllegalArgumentException.class, () -> new Scena(" ", "t", "/Immagini/prova.png", "d", List.of()));
+        assertThrows(IllegalArgumentException.class, () -> new Scena("s", " ", "/Immagini/prova.png", "d", List.of()));
+        assertThrows(IllegalArgumentException.class, () -> new Scena("s", "t", "/Immagini/prova.png", " ", List.of()));
+        assertThrows(NullPointerException.class, () -> new Scena("s", "t", "/Immagini/prova.png", "d", null));
+        assertThrows(NullPointerException.class, () -> new Scena("s", "t", "/Immagini/prova.png", "d", Arrays.asList((OpzioneScena) null)));
+        assertThrows(IllegalArgumentException.class, () -> new Scena("s", "t", "/Immagini/prova.png", "d", List.of(opzione,
                 new OpzioneScena(new SceltaRaccolta("id", "Altro", "o"), Set.of(), Set.of()))));
-        assertTrue(new Scena("s", "t", "d", List.of()).getScelteDisponibili(Set.of()).isEmpty());
-        assertThrows(NullPointerException.class, () -> new Scena("s", "t", "d", List.of()).getScelteDisponibili(null));
+        assertTrue(new Scena("s", "t", "/Immagini/prova.png", "d", List.of()).getScelteDisponibili(Set.of()).isEmpty());
+        assertThrows(NullPointerException.class, () -> new Scena("s", "t", "/Immagini/prova.png", "d", List.of()).getScelteDisponibili(null));
+    }
+
+    @Test
+    void scenaConservaPercorsoImmagineEDescrizioneDistinti() {
+        var scena = new Scena("s", "Titolo", "/Immagini/prova.png", "Descrizione", List.of());
+        assertEquals("/Immagini/prova.png", scena.getPercorsoImmagine());
+        assertEquals("Descrizione", scena.getDescrizione());
+    }
+
+    @Test
+    void scenaRifiutaPercorsoImmagineNulloOVuoto() {
+        assertThrows(NullPointerException.class, () -> new Scena("s", "t", null, "d", List.of()));
+        assertThrows(IllegalArgumentException.class, () -> new Scena("s", "t", " \t ", "d", List.of()));
     }
 }

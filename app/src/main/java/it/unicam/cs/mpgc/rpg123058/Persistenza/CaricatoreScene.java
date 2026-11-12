@@ -201,7 +201,7 @@ public class CaricatoreScene {
             opzioni.add(opzione);
         }
 
-        return new Scena(id, titolo, descrizione, percorsoImmagine, opzioni);
+        return new Scena(id, titolo, percorsoImmagine, descrizione, opzioni);
     }
 
     /**

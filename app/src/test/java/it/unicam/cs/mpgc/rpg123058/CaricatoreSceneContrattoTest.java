@@ -5,8 +5,12 @@ import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scena.Scena;
 import it.unicam.cs.mpgc.rpg123058.Persistenza.CaricatoreScene;
 import org.junit.jupiter.api.Test;
 
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,6 +23,7 @@ class CaricatoreSceneContrattoTest {
         assertEquals("fixtures/valid", scena.getId());
         assertEquals("Titolo di prova", scena.getTitolo());
         assertEquals("Descrizione di prova", scena.getDescrizione());
+        assertEquals("/Immagini/fixture.png", scena.getPercorsoImmagine());
         SceltaNavigazione vai = new SceltaNavigazione("vai", "Vai", "altra");
         SceltaRaccolta prendi = new SceltaRaccolta("prendi", "Prendi", "acqua");
         SceltaCombattimento lotta = new SceltaCombattimento("lotta", "Combatti", "orchi_galleria");
@@ -41,6 +46,27 @@ class CaricatoreSceneContrattoTest {
     }
 
     @Test
+    void immaginiDelleDieciSceneRealiEsistonoNelClasspathConNomeEsatto() throws Exception {
+        List<String> nomi = List.of("sotto_le_macerie", "strada_interrotta", "segni_sulle_pareti",
+                "galleria_echi", "sala_registri", "compagno_ferito", "ultima_riserva",
+                "qualcosa_nelle_profondita", "ponte_khazad_dum", "primo_sole");
+        Path directoryImmagini = Path.of(Scena.class.getResource("/Immagini/").toURI());
+        Set<String> filePresenti;
+        try (Stream<Path> file = Files.list(directoryImmagini)) {
+            filePresenti = file.map(path -> path.getFileName().toString()).collect(java.util.stream.Collectors.toSet());
+        }
+        for (String nome : nomi) {
+            Scena scena = caricatore.caricaScena(nome + ".json");
+            String percorso = "/Immagini/" + nome + ".png";
+            assertEquals(percorso, scena.getPercorsoImmagine(), nome);
+            assertTrue(filePresenti.contains(nome + ".png"), percorso);
+            try (InputStream immagine = Scena.class.getResourceAsStream(percorso)) {
+                assertNotNull(immagine, percorso);
+            }
+        }
+    }
+
+    @Test
     void rifiutaPathInvalidiEDuplicatiNellaLista() {
         assertThrows(NullPointerException.class, () -> caricatore.caricaScena(null));
         for (String nome : List.of("", "  "))
@@ -55,6 +81,7 @@ class CaricatoreSceneContrattoTest {
     void rifiutaDocumentiEStruttureNonValidi() {
         for (String nome : List.of("malformed", "empty_document", "wrong_root", "wrong_filename",
                 "missing_id", "missing_title", "missing_description", "missing_options",
+                "missing_image_path", "null_image_path", "blank_image_path", "wrong_image_path_type",
                 "null_id", "null_title", "null_description", "null_options",
                 "number_id", "number_title", "number_description", "blank_id", "blank_title",
                 "blank_description", "object_options", "invalid_option", "null_option"))
