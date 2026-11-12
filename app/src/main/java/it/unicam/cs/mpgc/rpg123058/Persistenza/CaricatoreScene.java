@@ -30,9 +30,7 @@ import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scena.Scena;
 public class CaricatoreScene {
 
     //Unico oggetto Gson per tutte le scene, STRICT per rifiutare sintassi JSON non valida
-    private final Gson gson = new GsonBuilder()
-            .setStrictness(Strictness.STRICT)
-            .create();
+    private final Gson gson = new GsonBuilder().setStrictness(Strictness.STRICT).create();
 
     /**
      * Apre l'accesso al file. Controlla la validità del path, cerca la risorsa in 'resources' e se valida
@@ -81,7 +79,7 @@ public class CaricatoreScene {
     }
 
     /**
-     * Recupera uno specifico campo testuale. Cerca il campo, verifica il tip ed estrae la stringa Java.
+     * Recupera uno specifico campo testuale. Cerca il campo, verifica il tipo ed estrae la stringa Java.
      *
      * @param oggetto oggetto di tipo JSON da cui recuperare il campo
      * @param campo specifico
@@ -102,8 +100,8 @@ public class CaricatoreScene {
     /**
      * Crea il tipo di scelta nella specifica scena a seconda del suo tipo.
      *
-     * @param opzione
-     * @return
+     * @param opzione singola opzione all'interno dell'array JSON {@code opzioni}
+     * @return oggetto del tipo scelta/opzione passata
      */
     private Scelta leggiScelta(JsonObject opzione) {
         //campi comuni a tutti tipi di scelta

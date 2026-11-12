@@ -8,6 +8,8 @@ import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scelta.SceltaCombattimento;
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scelta.SceltaNavigazione;
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scelta.SceltaRaccolta;
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scena.Scena;
+import it.unicam.cs.mpgc.rpg123058.Salvataggio.StatoGiocatore;
+import it.unicam.cs.mpgc.rpg123058.Salvataggio.StatoPartita;
 
 import java.util.*;
 import java.util.function.Function;
@@ -15,6 +17,7 @@ import java.util.function.Function;
 public class Partita {
     private final Giocatore giocatore;
     private final Map<String, Scena> scene;
+    //gli eventi che definiscono la progressione di una determinata scena corrente
     private final Set<String> eventiCompletati = new HashSet<>();
     private String idScenaCorrente;
     private final Map<String, Oggetto> oggetti;
@@ -25,7 +28,22 @@ public class Partita {
     private String idIncontroAttivo;
 
     /**
+     * Costruttore 1 (Nuova partita)
+     * Costruttore per la creazione di una nuova partita, che utlizza il corpo del secondo costruttore passando
+     * eventiCompletati nullo
+     */
+    public Partita(Giocatore giocatore, List<Scena> scene, String idScenaIniziale, Map<String, Oggetto> oggetti, Map<String, Function<Giocatore, Combattimento>> incontri){
+
+        //la chiamata this() esegue un altro costruttore della classe
+        this(giocatore, scene, idScenaIniziale, oggetti, incontri, Set.of());
+    }
+
+    /**
+     * Costruttore 2 (Continuo partita salvata)
      * Inizializza una partita con un giocatore vivo e una scena iniziale esistente. Copia i cataloghi e la collezione di scene; gli oggetti contenuti restano condivisi.
+     * Questo costruttore accetta anche gli eventiCompletati se chiamato direttamente per riprendere una partita salvata,
+     * invece se chiamato attraverso il primo costruttore avrà il campo eventiCompletati nullo per iniziare una nuova partita
+     *
      * @param giocatore protagonista vivo
      * @param scene scene non nulle con ID distinti
      * @param idScenaIniziale ID non blank di una scena presente
@@ -34,8 +52,8 @@ public class Partita {
      * @throws NullPointerException se un parametro, una scena o una voce di catalogo è nulla
      * @throws IllegalArgumentException se il giocatore è morto, un ID è invalido o una scena è duplicata
      */
-    public Partita(Giocatore giocatore, List<Scena> scene, String idScenaIniziale, Map<String, Oggetto> oggetti, Map<String, Function<Giocatore, Combattimento>> incontri){
-        if(giocatore == null || scene == null || idScenaIniziale == null || oggetti == null || incontri == null) throw new NullPointerException("Parametri nulli non ammessi");
+    public Partita(Giocatore giocatore, List<Scena> scene, String idScenaIniziale, Map<String, Oggetto> oggetti, Map<String, Function<Giocatore, Combattimento>> incontri, Set<String> eventiCompletati){
+        if(giocatore == null || scene == null || idScenaIniziale == null || oggetti == null || incontri == null || eventiCompletati == null) throw new NullPointerException("Parametri nulli non ammessi");
         if(idScenaIniziale.isBlank()) throw new IllegalArgumentException("Id scen iniziale buoto o contiene solo spazi");
         if (!giocatore.isVivo()) throw new IllegalArgumentException("Il giocatore deve essere vivo");
 
@@ -55,6 +73,14 @@ public class Partita {
             mappaTemporanea.put(idScena, scena);
         }
 
+        //controllo della consistenza degli eventiCompletati passati per riprendere una partita salvata
+        //in caso di una nuova partita questo Set è vuoto (non nullo)
+        for (String evento : eventiCompletati) {
+            if(evento == null) throw new NullPointerException("ID evento nullo non ammesso");
+
+            if (evento.isBlank()) throw new IllegalArgumentException("ID evento vuoto o di soli spazi");
+        }
+
         if (!mappaTemporanea.containsKey(idScenaIniziale)) throw new IllegalArgumentException("Scena iniziale inesistente: " + idScenaIniziale);
 
         this.oggetti = Map.copyOf(oggetti);
@@ -71,7 +97,7 @@ public class Partita {
         this.scene = Map.copyOf(mappaTemporanea);
         this.giocatore = giocatore;
         this.idScenaCorrente = idScenaIniziale;
-
+        this.eventiCompletati.addAll(eventiCompletati);
     }
 
     /**
@@ -281,6 +307,80 @@ public class Partita {
                 != StatoCombattimento.IN_CORSO) {
             concludiCombattimento();
         }
+    }
+
+    /**
+     * Cerca l'id di un oggetto all'interno del catalogo degli oggetti della partita.
+     * Gli oggetti salvabili devono per forza provenire dal catalogo della partita.
+     *
+     * @param oggetto oggetto che si sta cercando
+     * @return l'Id dell'oggetto se trovato oppure viene segnalata l'assenza dello stesso
+     */
+    private String trovaIdOggetto(Oggetto oggetto){
+        Objects.requireNonNull(oggetto, "Oggetto nullo non ammessoo");
+
+        String idOggettoTrovato = null;
+
+        //qui non è possibile usare il .forEach perchè nelle lambda espressioni non si possono modificare variabili esterne
+        for (Map.Entry<String, Oggetto> voce : oggetti.entrySet()) {
+            //visto che gli oggetti istanziati dal catalogo solo sempre gli stessi è possibile usare ==
+            if(voce.getValue() == oggetto) {
+                if(idOggettoTrovato == null){
+                    idOggettoTrovato = voce.getKey();
+                }else{
+                    //per essere sicuri che non ci siano errori nel caricamento degli oggetti
+                    throw new IllegalStateException("Un oggetto non può essere associato a più di un Id");
+                }
+            }
+        }
+
+        if(idOggettoTrovato == null) throw new IllegalStateException("Oggetto non presente all'interno del catalogo");
+
+        return idOggettoTrovato;
+    }
+
+
+    /**
+     * Legge lo stato attuale della partita e costruisce i due record StatoPartita e StatoGiocatore che racchiudono solo
+     * le informazioni utili per il salvataggio
+     *
+     * @return lo StatoPartita che contiene al suo interno lo StatoGiocatore
+     */
+    public StatoPartita esportaStato() {
+        if (isInCombattimento()) throw new IllegalStateException("Non è possibile salvare durante un combattimento");
+
+        if (!giocatore.isVivo()) throw new IllegalStateException("Non è possibile salvare dopo la sconfitta");
+
+        Map<String, Integer> inventarioSalvato = new HashMap<>();
+
+        //cerca l'Id di ogni oggetto nell'inventario del Giocatore in quel momento dal catalogo
+        // e lo inserisce in una mappa per creare lo StatoGiocatore
+        for (VoceInventario voce : giocatore.getInventario().consultaInventario()) {
+            String idOggetto = trovaIdOggetto(voce.getOggetto());
+            inventarioSalvato.put(idOggetto, voce.getQuantita());
+        }
+
+        Arma arma = giocatore.getArmaEquipaggiata();
+        Armatura armatura = giocatore.getArmaturaEquipaggiata();
+
+        //sintassi brutta ma compatta, se l'equipaggiamento non è null cerca e assegna il suo id
+        String idArma = arma == null ? null : trovaIdOggetto(arma);
+        String idArmatura = armatura == null ? null : trovaIdOggetto(armatura);
+
+        StatoGiocatore statoGiocatore = new StatoGiocatore(
+                giocatore.getNome(),
+                giocatore.getSalute(),
+                idArma,
+                idArmatura,
+                inventarioSalvato
+        );
+
+        return new StatoPartita(
+                1,
+                idScenaCorrente,
+                eventiCompletati,
+                statoGiocatore
+        );
     }
 
     /**
