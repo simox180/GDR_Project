@@ -7,17 +7,17 @@ import it.unicam.cs.mpgc.rpg123058.Combattimento.GestoreTurni.GestoreTurni;
 import it.unicam.cs.mpgc.rpg123058.Combattimento.GestoreTurni.GestoreTurniSequenziale;
 import it.unicam.cs.mpgc.rpg123058.Combattimento.StrategiaNemico.StrategiaNemico;
 import it.unicam.cs.mpgc.rpg123058.Combattimento.StrategiaNemico.StrategiaNemicoBase;
-import it.unicam.cs.mpgc.rpg123058.Dominio.Giocatore;
-import it.unicam.cs.mpgc.rpg123058.Dominio.Oggetto;
-import it.unicam.cs.mpgc.rpg123058.Dominio.Personaggio;
+import it.unicam.cs.mpgc.rpg123058.Dominio.*;
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Partita;
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scena.Scena;
 import it.unicam.cs.mpgc.rpg123058.Persistenza.CaricatoreScene;
 import it.unicam.cs.mpgc.rpg123058.Salvataggio.StatoPartita;
+import it.unicam.cs.mpgc.rpg123058.Salvataggio.StatoGiocatore;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 
 public class ConfigurazionePartita {
@@ -37,14 +37,119 @@ public class ConfigurazionePartita {
         Partita partita = configurazione.creaNuovaPartita("Thorin");
     */
 
+    /**
+     * Ripristina una partita al punto in cui è stata salvata. Riceve lo stato salvato e controlla la validità di tutti
+     * i campi del record StatoPartita, che usa per creare la partita chiamando direttamente il costruttore a 6 parametri
+     * inserendo anche gli eventiCompletati (le scelte che sono già state fatte al momento del salvataggio),
+     * insieme anche allo stato del giocatore (salute, equipaggiamenti e tutti gli oggetti nell'inventario)
+     *
+     * @return la partita al punto del salvataggio
+     */
     public Partita ripristinaPartita(StatoPartita stato){
 
         Objects.requireNonNull(stato, "Stato nullo non ammesso");
 
-        Giocatore giocatore = creaGiocatore(stato.giocatore().nome());
+        //per adesso il salvataggio è solo uno con la versione 1
+        if (stato.versione() != 1) throw new IllegalArgumentException("Versione del salvataggio non supportata");
 
-        for(String id : stato.giocatore().inventario().keySet())
-        return null;
+        String idScenaCorrente = stato.idScenaCorrente();
+        if(idScenaCorrente == null) throw new NullPointerException("Id della scena corrente non può essere nullo");
+        if(idScenaCorrente.isBlank()) throw new IllegalArgumentException("Id della scena vuoto o con solo spazi");
+
+        //carico le scene prima per vedere se la scena corrente dello stato esiste
+        List<Scena> scene = caricaScene();
+
+        boolean idScenaTrovato = false;
+        for(Scena scena : scene){
+            if(scena.getId().equals(idScenaCorrente)){
+                idScenaTrovato = true;
+                break;
+            }
+        }
+        if(!idScenaTrovato) throw new IllegalArgumentException("La scena corrente dello stato non esiste");
+
+        Set<String> eventiCompletati = stato.eventiCompletati();
+
+        if(eventiCompletati == null) throw new NullPointerException("Set degli eventi nullo non ammesso");
+
+        for(String eventoCompletato : eventiCompletati){
+            Objects.requireNonNull(eventoCompletato, "Eventi nulli non ammessi");
+            if(eventoCompletato.isBlank()) throw new IllegalArgumentException("Eventi vuoti o di soli spazi non ammessi");
+        }
+
+        Map<String, Oggetto> oggetti = new CatalogoOggetti().creaCatalogo();
+
+        Giocatore giocatore = ripristinaGiocatore(stato.giocatore(),oggetti);
+
+        //i controlli sulla scena e sugli eventi si ripetono anche nel costruttore di partita, però li ho voluti mettere anche
+        //qui perchè prendendo come parametro un oggetto derivato dal JSON voglio che sia controllato prima possibile
+        // so che va contro il principio DRYS (Dont Repeat Yourself Stupid)
+        return new Partita(giocatore, scene, idScenaCorrente, oggetti, creaIncontri(oggetti), eventiCompletati);
+    }
+
+    /**
+     * Ripristina lo stato del giocatore al momento del salvataggio controllando e ricostruendo vita, equipaggiamenti e inventario.
+     *
+     * @param statoGiocatore lo stato del giocatore al momento del salvataggio
+     * @param oggetti gli oggetti e i loro id contenuti nell'inventario del giocatore al momento del salvataggio
+     * @return l'istanza del giocatore ricreata con le caratteristiche dello stato del giocatore passato
+     */
+    private Giocatore ripristinaGiocatore(StatoGiocatore statoGiocatore, Map<String, Oggetto> oggetti) {
+        Objects.requireNonNull(statoGiocatore, "Stato del giocatore nullo");
+        Objects.requireNonNull(oggetti, "Catalogo degli oggetti nullo");
+
+        Giocatore giocatore = creaGiocatore(statoGiocatore.nome());
+
+        if (statoGiocatore.salute() > giocatore.getSaluteMassima()) throw new IllegalArgumentException("La salute salvata supera la salute massima");
+
+        for (String id : statoGiocatore.inventario().keySet()) {
+            if (!oggetti.containsKey(id)) throw new IllegalArgumentException("Oggetto salvato inesistente");
+        }
+
+        Arma arma = null;
+        //è possibile che al momento del salvataggio il giocatore non avesse nessun equipaggiamento negli slot
+        if (statoGiocatore.armaEquipaggiata() != null) {
+            Oggetto oggetto = oggetti.get(statoGiocatore.armaEquipaggiata());
+
+            if (!(oggetto instanceof Arma)) throw new IllegalArgumentException("ID arma inesistente o associato a un oggetto diverso da un'arma");
+
+            arma = (Arma) oggetto;
+        }
+
+        Armatura armatura = null;
+        if (statoGiocatore.armaturaEquipaggiata() != null) {
+            Oggetto oggetto = oggetti.get(statoGiocatore.armaturaEquipaggiata());
+
+            if (!(oggetto instanceof Armatura)) throw new IllegalArgumentException("ID armatura inesistente o associato a un oggetto diverso da un'armatura");
+
+            armatura = (Armatura) oggetto;
+        }
+
+        //porta la vita del giocatore al punto di salvataggio tramite .subisciDanno evitando un setVita dannoso
+        giocatore.subisciDanno(giocatore.getSaluteMassima() - statoGiocatore.salute());
+
+        //inserendo gli equipaggiamenti nell'inventario per poi equipaggiarli con .equipaggia evita un set dannoso come per la vita
+        if (arma != null) {
+            giocatore.getInventario().inserisciOggetto(arma);
+            giocatore.equipaggiaArma(arma);
+        }
+
+        if (armatura != null) {
+            giocatore.getInventario().inserisciOggetto(armatura);
+            giocatore.equipaggiaArmatura(armatura);
+        }
+
+        //dopo i controlli per l'inventario dello stato, usiamo un entryset per aggiungere gli oggetti nell'inventario del giocatore
+        //che stiamo ripristinando
+        for (Map.Entry<String, Integer> voce : statoGiocatore.inventario().entrySet()) {
+            Oggetto oggetto = oggetti.get(voce.getKey());
+            //il campo integer definisce quanti duplicati dello stesso oggetto ci sono, quindi cè bisogno di inserirli tutti
+            for (int i = 0; i < voce.getValue(); i++) {
+                giocatore.getInventario().inserisciOggetto(oggetto);
+            }
+        }
+
+        return giocatore;
     }
 
     /**

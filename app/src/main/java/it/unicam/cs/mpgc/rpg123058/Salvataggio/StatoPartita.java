@@ -12,8 +12,8 @@ public record StatoPartita(
         public StatoPartita{
              if(versione <= 0) throw new IllegalArgumentException("Versione negativa non ha senso");
 
-             if(idScenaCorrente == null) throw new NullPointerException("Id della scena corrente non può essere nullo");
-             if(idScenaCorrente.isBlank()) throw new IllegalArgumentException("Id della scena vuoto o con solo spazi");
+            if (idScenaCorrente == null) throw new NullPointerException("Id della scena corrente non può essere nullo");
+            if (idScenaCorrente.isBlank()) throw new IllegalArgumentException("Id della scena vuoto o con solo spazi");
 
              eventiCompletati = Set.copyOf(eventiCompletati);
 

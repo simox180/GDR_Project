@@ -67,7 +67,7 @@ public class Partita {
             String idScena = scena.getId();
 
             if (mappaTemporanea.containsKey(idScena)) {
-                throw new IllegalArgumentException("ID scena duplicato: " + idScena);
+                throw new IllegalArgumentException("ID scena duplicato");
             }
 
             mappaTemporanea.put(idScena, scena);
@@ -81,7 +81,7 @@ public class Partita {
             if (evento.isBlank()) throw new IllegalArgumentException("ID evento vuoto o di soli spazi");
         }
 
-        if (!mappaTemporanea.containsKey(idScenaIniziale)) throw new IllegalArgumentException("Scena iniziale inesistente: " + idScenaIniziale);
+        if (!mappaTemporanea.containsKey(idScenaIniziale)) throw new IllegalArgumentException("Scena iniziale inesistente");
 
         this.oggetti = Map.copyOf(oggetti);
         this.incontri = Map.copyOf(incontri);
@@ -136,7 +136,7 @@ public class Partita {
     private void eseguiNavigazione(SceltaNavigazione scelta) {
         String idDestinazione = scelta.idScenaDestinazione();
 
-        if (!this.scene.containsKey(idDestinazione)) throw new IllegalArgumentException("Scena di destinazione inesistente: " + idDestinazione);
+        if (!this.scene.containsKey(idDestinazione)) throw new IllegalArgumentException("Scena di destinazione inesistente");
 
         this.idScenaCorrente = idDestinazione;
     }
@@ -154,7 +154,7 @@ public class Partita {
 
         Oggetto oggetto = oggetti.get(scelta.idOggetto());
 
-        if (oggetto == null) throw new IllegalArgumentException("Oggetto inesistente: " + scelta.idOggetto());
+        if (oggetto == null) throw new IllegalArgumentException("Oggetto inesistente");
 
         giocatore.getInventario().inserisciOggetto(oggetto);
         eventiCompletati.add(evento);
@@ -175,7 +175,7 @@ public class Partita {
         //recupera la funzione dalla mappa incontri e la esegue con apply
         Function<Giocatore, Combattimento> creaIncontro = incontri.get(idIncontro);
 
-        if (creaIncontro == null) throw new IllegalArgumentException("Incontro inesistente: " + idIncontro);
+        if (creaIncontro == null) throw new IllegalArgumentException("Incontro inesistente");
 
         Combattimento nuovoCombattimento = creaIncontro.apply(giocatore);
 
