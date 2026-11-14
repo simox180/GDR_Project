@@ -43,6 +43,7 @@ public class ConfigurazionePartita {
      * inserendo anche gli eventiCompletati (le scelte che sono già state fatte al momento del salvataggio),
      * insieme anche allo stato del giocatore (salute, equipaggiamenti e tutti gli oggetti nell'inventario)
      *
+     * @param stato i dati della partita da ripristinare
      * @return la partita al punto del salvataggio
      */
     public Partita ripristinaPartita(StatoPartita stato){
@@ -83,7 +84,7 @@ public class ConfigurazionePartita {
 
         //i controlli sulla scena e sugli eventi si ripetono anche nel costruttore di partita, però li ho voluti mettere anche
         //qui perchè prendendo come parametro un oggetto derivato dal JSON voglio che sia controllato prima possibile
-        // so che va contro il principio DRYS (Dont Repeat Yourself Stupid)
+        //anche se va contro il principio DRY (Dont Repeat Yourself)
         return new Partita(giocatore, scene, idScenaCorrente, oggetti, creaIncontri(oggetti), eventiCompletati);
     }
 

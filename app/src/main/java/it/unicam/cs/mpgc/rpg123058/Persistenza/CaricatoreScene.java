@@ -71,7 +71,7 @@ public class CaricatoreScene {
 
             if (documento == null || !documento.isJsonObject()) throw new IllegalArgumentException("La scena deve contenere un oggetto JSON");
 
-            return documento.getAsJsonObject();//da qui leggiamo i campidell 'oggetto
+            return documento.getAsJsonObject();
 
         } catch (JsonParseException e) { throw new IllegalArgumentException("JSON non valido nel file " + e);
         } catch (IOException e) {throw new IllegalStateException("Errore di lettura del file " + e);
