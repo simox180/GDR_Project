@@ -2,7 +2,7 @@
   "id": "segni_sulle_pareti",
   "titolo": "I segni sulle pareti",
   "percorsoImmagine": "/Immagini/segni_sulle_pareti.png",
-  "descrizione": "Nel posto di guardia, profonde incisioni segnano la pietra accanto alla porta. Qualcuno ha contato i giorni trascorsi qui, fino a interrompersi a metà di una riga.\n\nDentro una cassa trovi del pane ancora avvolto in un telo. Uno scudo nanico è appoggiato contro la parete.",
+  "descrizione": "Nel posto di guardia, profonde incisioni segnano la pietra accanto alla porta. Qualcuno ha contato i giorni trascorsi qui, fino a interrompersi a metà di una riga.\nDentro una cassa trovi del pane ancora avvolto in un telo. Uno scudo nanico è appoggiato contro la parete.",
   "opzioni": [
     {
       "tipo": "RACCOLTA",

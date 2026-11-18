@@ -2,7 +2,7 @@
   "id": "sala_registri",
   "titolo": "La sala dei registri",
   "percorsoImmagine": "/Immagini/sala_registri.png",
-  "descrizione": "Tra scaffali spezzati e pagine disperse si erge una tomba di pietra. L'iscrizione porta il nome di Balin. I registri rimasti raccontano gli ultimi giorni di chi tentò di riconquistare Moria.\n\nAccanto ai resti di un giaciglio trovi una borraccia d'acqua e una corazza di maglia nanica.",
+  "descrizione": "Tra scaffali spezzati e pagine disperse si erge una tomba di pietra. L'iscrizione porta il nome di Balin. I registri rimasti raccontano gli ultimi giorni di chi tentò di riconquistare Moria.\nAccanto ai resti di un giaciglio trovi una borraccia d'acqua e una corazza di maglia nanica.",
   "opzioni": [
     {
       "tipo": "RACCOLTA",

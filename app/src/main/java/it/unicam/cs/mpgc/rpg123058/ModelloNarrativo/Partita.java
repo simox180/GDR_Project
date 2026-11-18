@@ -10,6 +10,7 @@ import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scelta.SceltaRaccolta;
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scena.Scena;
 import it.unicam.cs.mpgc.rpg123058.Salvataggio.StatoGiocatore;
 import it.unicam.cs.mpgc.rpg123058.Salvataggio.StatoPartita;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.*;
 import java.util.function.Function;
@@ -30,7 +31,7 @@ public class Partita {
     /**
      * Costruttore 1 (Nuova partita)
      * Costruttore per la creazione di una nuova partita, che utlizza il corpo del secondo costruttore passando
-     * eventiCompletati nullo
+     * eventiCompletati vuoto
      */
     public Partita(Giocatore giocatore, List<Scena> scene, String idScenaIniziale, Map<String, Oggetto> oggetti, Map<String, Function<Giocatore, Combattimento>> incontri){
 
@@ -42,7 +43,7 @@ public class Partita {
      * Costruttore 2 (Continuo partita salvata)
      * Inizializza una partita con un giocatore vivo e una scena iniziale esistente. Copia i cataloghi e la collezione di scene; gli oggetti contenuti restano condivisi.
      * Questo costruttore accetta anche gli eventiCompletati se chiamato direttamente per riprendere una partita salvata,
-     * invece se chiamato attraverso il primo costruttore avrà il campo eventiCompletati nullo per iniziare una nuova partita
+     * invece se chiamato attraverso il primo costruttore avrà il campo eventiCompletati vuoto per iniziare una nuova partita
      *
      * @param giocatore protagonista vivo
      * @param scene scene non nulle con ID distinti
@@ -415,6 +416,72 @@ public class Partita {
      */
     public Set<String> getEventiCompletati() {
         return Set.copyOf(eventiCompletati);
+    }
+
+    public List<VoceInventario> consultaInventario() {
+        return giocatore.getInventario().consultaInventario();
+    }
+
+    public @Nullable Arma getArmaEquipaggiata() {
+        return giocatore.getArmaEquipaggiata();
+    }
+
+    public @Nullable Armatura getArmaturaEquipaggiata() {
+        return giocatore.getArmaturaEquipaggiata();
+    }
+
+    public void equipaggiaArma(Arma arma) {
+        verificaCambioEquipaggiamento();
+        giocatore.equipaggiaArma(arma);
+    }
+
+    public void equipaggiaArmatura(Armatura armatura) {
+        verificaCambioEquipaggiamento();
+        giocatore.equipaggiaArmatura(armatura);
+    }
+
+    public boolean disequipaggiaArma() {
+        verificaCambioEquipaggiamento();
+        return giocatore.disequipaggiaArma();
+    }
+
+    public boolean disequipaggiaArmatura() {
+        verificaCambioEquipaggiamento();
+        return giocatore.disequipaggiaArmatura();
+    }
+
+    private void verificaCambioEquipaggiamento() {
+        if (isSconfitta()) {
+            throw new IllegalStateException("Non puoi cambiare equipaggiamento dopo la sconfitta");
+        }
+
+        if (isInCombattimento()) {
+            throw new IllegalStateException("Non puoi cambiare equipaggiamento durante un combattimento");
+        }
+    }
+
+    public String getNomeGiocatore() {
+        return giocatore.getNome();
+    }
+
+    public int getSaluteGiocatore() {
+        return giocatore.getSalute();
+    }
+
+    public int getSaluteMassimaGiocatore() {
+        return giocatore.getSaluteMassima();
+    }
+
+    public boolean isTurnoGiocatore() {
+        return combattimentoAttivo != null && !isSconfitta() && combattimentoAttivo.getPersonaggioDiTurno() == giocatore;
+    }
+
+    public int getAttaccoGiocatore() {
+        return giocatore.getAttacco();
+    }
+
+    public int getDifesaGiocatore() {
+        return giocatore.getDifesa();
     }
 
 }

@@ -2,7 +2,7 @@
   "id": "sotto_le_macerie",
   "titolo": "Sotto le macerie",
   "percorsoImmagine": "/Immagini/sotto_le_macerie.png",
-  "descrizione": "Riprendi conoscenza tra le pietre crollate di Moria. La polvere ti brucia la gola e, nell'oscurità, la luce di una lanterna rivela i resti del passaggio.\n\nPoco distante scorgi una borraccia ancora chiusa e un'ascia nanica danneggiata. Davanti a te, un varco tra le macerie conduce a una strada interrotta.",
+  "descrizione": "Riprendi conoscenza tra le pietre crollate di Moria. La polvere ti brucia la gola e, nell'oscurità, la luce di una lanterna rivela i resti del passaggio.\nPoco distante scorgi una borraccia ancora chiusa e un'ascia nanica danneggiata. Davanti a te, un varco tra le macerie conduce a una strada interrotta.",
   "opzioni": [
     {
       "tipo": "RACCOLTA",

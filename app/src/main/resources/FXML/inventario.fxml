@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.unicam.cs.mpgc.rpg123058.GUI.InventarioController"
+      prefWidth="340"
+      minWidth="340"
+      maxWidth="340"
+      maxHeight="-Infinity"
+      spacing="12"
+      styleClass="pannello-inventario">
+
+    <Label text="Inventario" styleClass="titolo-scena"/>
+
+    <Label fx:id="armaEquipaggiata"
+           wrapText="true"
+           styleClass="descrizione-scena"/>
+
+    <Button fx:id="pulsanteTogliArma"
+            text="Disequipaggia arma"
+            onAction="#disequipaggiaArma"
+            styleClass="pulsante-scelta"/>
+
+    <Label fx:id="armaturaEquipaggiata"
+           wrapText="true"
+           styleClass="descrizione-scena"/>
+
+    <Button fx:id="pulsanteTogliArmatura"
+            text="Disequipaggia armatura"
+            onAction="#disequipaggiaArmatura"
+            styleClass="pulsante-scelta"/>
+
+    <ScrollPane fitToWidth="true"
+                prefHeight="180"
+                hbarPolicy="NEVER"
+                vbarPolicy="AS_NEEDED"
+                styleClass="testo-narrativo">
+
+        <content>
+            <VBox fx:id="elencoOggetti" spacing="10"/>
+        </content>
+
+    </ScrollPane>
+
+    <Label fx:id="messaggioInventario"
+           wrapText="true"
+           styleClass="descrizione-scena"/>
+
+    <Button text="Chiudi"
+            onAction="#chiudi"
+            styleClass="pulsante-scelta"/>
+
+</VBox>

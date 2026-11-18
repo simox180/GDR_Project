@@ -2,7 +2,7 @@
   "id": "strada_interrotta",
   "titolo": "La strada interrotta",
   "percorsoImmagine": "/Immagini/strada_interrotta.png",
-  "descrizione": "La strada scompare sotto un cumulo di pietre. Oltre il crollo senti il rumore lontano di passi e ferro battuto.\n\nUna scalinata scende verso la galleria degli echi. Sul lato opposto, la porta di un antico posto di guardia è ancora aperta.",
+  "descrizione": "La strada scompare sotto un cumulo di pietre. Oltre il crollo senti il rumore lontano di passi e ferro battuto.\nUna scalinata scende verso la galleria degli echi. Sul lato opposto, la porta di un antico posto di guardia è ancora aperta.",
   "opzioni": [
     {
       "tipo": "NAVIGAZIONE",

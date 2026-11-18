@@ -63,4 +63,8 @@ public class GestoreSalvataggi {
             return statoPartita;
          }
     }
+
+    public boolean esisteSalvataggio() {
+        return Files.isRegularFile(percorsoSalvataggio);
+    }
 }

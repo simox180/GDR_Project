@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="it.unicam.cs.mpgc.rpg123058.GUI.MenuController"
+          stylesheets="@../CSS/stile.css"
+          styleClass="menu">
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="65"/>
+        <ColumnConstraints percentWidth="35"/>
+    </columnConstraints>
+
+    <rowConstraints>
+        <RowConstraints percentHeight="32"/>
+        <RowConstraints percentHeight="68"/>
+    </rowConstraints>
+
+    <VBox GridPane.columnIndex="1"
+          GridPane.rowIndex="1"
+          alignment="TOP_CENTER"
+          spacing="18">
+        <!-- fx:id collega un componente FXML a un campo Java con lo stesso nome-->
+        <TextField fx:id="campoNome" promptText="Nome del protagonista" maxWidth="250"/>
+
+        <!-- #nomeMetodo associa il comportamento del metodo 'campoNome' all'azione del bottone-->
+        <Button text="Nuova partita" prefWidth="250" onAction="#nuovaPartita"/>
+        <Button fx:id="pulsanteContinua" text="Continua" prefWidth="250" onAction="#continuaPartita"/>
+        <Button text="Esci" prefWidth="250" onAction="#esci"/>
+
+        <Label fx:id="messaggioErrore" maxWidth="250" wrapText="true" style="-fx-text-fill: #ffb4a2;"/>
+
+    </VBox>
+
+</GridPane>

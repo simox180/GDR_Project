@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.unicam.cs.mpgc.rpg123058.GUI.CombattimentoController"
+      prefWidth="620"
+      maxWidth="620"
+      maxHeight="-Infinity"
+      spacing="14"
+      styleClass="pannello-combattimento">
+
+    <Label text="Combattimento" styleClass="titolo-scena"/>
+
+    <Label fx:id="nomeGiocatore"
+           styleClass="descrizione-scena"/>
+
+    <Label fx:id="saluteGiocatore"
+           styleClass="descrizione-scena"/>
+
+    <ProgressBar fx:id="barraSaluteGiocatore"
+                 maxWidth="Infinity"
+                 styleClass="barra-salute"/>
+
+    <Label fx:id="statisticheGiocatore"
+           styleClass="statistiche-combattimento"/>
+
+    <Label text="Seleziona un avversario:"
+           styleClass="descrizione-scena"/>
+
+    <ScrollPane fitToWidth="true"
+                prefHeight="160"
+                hbarPolicy="NEVER"
+                styleClass="testo-narrativo">
+
+        <content>
+            <VBox fx:id="elencoNemici" spacing="12"/>
+        </content>
+
+    </ScrollPane>
+
+    <Label fx:id="indicazioneTurno"
+           styleClass="descrizione-scena"/>
+
+    <HBox spacing="12" alignment="CENTER">
+        <Button fx:id="pulsanteAttacca"
+                text="Attacca"
+                onAction="#attacca"
+                disable="true"
+                styleClass="pulsante-scelta"/>
+
+        <Button fx:id="pulsanteDifendi"
+                text="Difendi"
+                onAction="#difendi"
+                disable="true"
+                styleClass="pulsante-scelta"/>
+
+    </HBox>
+
+</VBox>

@@ -2,7 +2,7 @@
   "id": "qualcosa_nelle_profondita",
   "titolo": "Qualcosa nelle profondità",
   "percorsoImmagine": "/Immagini/qualcosa_nelle_profondita.png",
-  "descrizione": "Un tremore percorre la pietra. Dal fondo delle sale sale un calore improvviso, seguito da un rumore troppo profondo per appartenere a una creatura comune.\n\nGli Orchi fuggono abbandonando torce e armi. Tra le loro grida distingui una parola: Flagello. Sostieni il tuo compagno e cercate la strada verso il ponte.",
+  "descrizione": "Un tremore percorre la pietra. Dal fondo delle sale sale un calore improvviso, seguito da un rumore troppo profondo per appartenere a una creatura comune.\nGli Orchi fuggono abbandonando torce e armi. Tra le loro grida distingui una parola: Flagello. Sostieni il tuo compagno e cercate la strada verso il ponte.",
   "opzioni": [
     {
       "tipo": "NAVIGAZIONE",

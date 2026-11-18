@@ -1,0 +1,144 @@
+.menu {
+    -fx-background-image: url("../Immagini/menu.jpeg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 100% 100%;
+}
+
+.menu .button {
+    -fx-background-color: rgba(24, 25, 25, 0.90);
+    -fx-text-fill: #e5d5ad;
+    -fx-border-color: #92764b;
+    -fx-border-width: 1;
+    -fx-font-size: 17px;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+}
+
+.menu .button:hover {
+    -fx-background-color: #39352b;
+    -fx-border-color: #d1b477;
+}
+
+.menu .text-field {
+    -fx-background-color: rgba(20, 22, 23, 0.90);
+    -fx-text-fill: #eee5d2;
+    -fx-prompt-text-fill: #b5ad9b;
+    -fx-border-color: #92764b;
+    -fx-font-size: 15px;
+    -fx-padding: 10;
+}
+
+.pannello-narrativo {
+    -fx-background-color: linear-gradient(
+        to bottom,
+        rgba(48, 43, 36, 0.78),
+        rgba(23, 25, 26, 0.78)
+    );
+
+    -fx-padding: 24 24 14 24;
+    -fx-background-radius: 2;
+
+    -fx-border-color: #b99a62, #514333, #92764b;
+    -fx-border-width: 2, 1, 1;
+    -fx-border-insets: 0, 5, 9;
+    -fx-border-radius: 2, 1, 0;
+
+
+    -fx-effect: dropshadow(
+        gaussian,
+        rgba(0, 0, 0, 0.5),
+        18,
+        0.25,
+        0,
+        5
+    );
+}
+
+.titolo-scena {
+    -fx-font-size: 24px;
+    -fx-text-fill: #e5d5ad;
+    -fx-font-weight: bold;
+}
+
+.descrizione-scena {
+    -fx-font-size: 16px;
+    -fx-text-fill: #eee5d2;
+}
+
+.testo-narrativo,
+.testo-narrativo > .viewport {
+    -fx-background-color: transparent;
+}
+
+.targhetta-titolo {
+    -fx-background-color: #26231e;
+
+    -fx-border-color: #b99a62, #514333;
+    -fx-border-width: 2, 1;
+    -fx-border-insets: 0, 4;
+
+    -fx-padding: 5 22;
+
+    -fx-font-family: "Georgia";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e5d5ad;
+}
+
+.pulsante-scelta {
+    -fx-background-color: rgba(28, 27, 24, 0.85);
+    -fx-border-color: #92764b;
+    -fx-text-fill: #e5d5ad;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 6 12;
+    -fx-cursor: hand;
+}
+
+.pulsante-scelta:hover {
+    -fx-background-color: rgba(70, 57, 37, 0.95);
+    -fx-border-color: #d1b477;
+}
+
+.pannello-inventario {
+    -fx-background-color: rgba(23, 25, 26, 0.95);
+
+    -fx-border-color: #b99a62, #514333;
+    -fx-border-width: 2, 1;
+    -fx-border-insets: 0, 5;
+
+    -fx-padding: 20;
+}
+
+.nome-oggetto {
+    -fx-text-fill: #f0e4ce;
+    -fx-font-size: 14px;
+}
+
+.pannello-combattimento {
+    -fx-background-color: rgba(23, 25, 26, 0.96);
+    -fx-border-color: #b99a62, #514333;
+    -fx-border-width: 2, 1;
+    -fx-border-insets: 0, 5;
+    -fx-padding: 24;
+}
+
+.selezione-nemico {
+    -fx-text-fill: #eee5d2;
+    -fx-font-size: 16px;
+}
+
+.barra-salute {
+    -fx-accent: #739454;
+}
+
+.proprieta-oggetto {
+    -fx-font-size: 12px;
+    -fx-text-fill: #d4bf99;
+}
+
+.statistiche-combattimento {
+    -fx-text-fill: #e4d3b3;
+    -fx-font-size: 13px;
+}

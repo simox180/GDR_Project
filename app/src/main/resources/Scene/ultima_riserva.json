@@ -2,7 +2,7 @@
   "id": "ultima_riserva",
   "titolo": "L'ultima riserva",
   "percorsoImmagine": "/Immagini/ultima_riserva.png",
-  "descrizione": "Il deposito custodisce poche provviste dimenticate. Tra le casse trovi del pane e una borraccia ancora piena.\n\nUn registro spiega che l'olio delle lanterne veniva conservato in fiasche sigillate e distribuito con parsimonia. La fiasca portata dal tuo compagno è una delle ultime riserve: potrebbe alimentare una luce, oppure accendere un fuoco.",
+  "descrizione": "Il deposito custodisce poche provviste dimenticate. Tra le casse trovi del pane e una borraccia ancora piena.\nUn registro spiega che l'olio delle lanterne veniva conservato in fiasche sigillate e distribuito con parsimonia. La fiasca portata dal tuo compagno è una delle ultime riserve: potrebbe alimentare una luce, oppure accendere un fuoco.",
   "opzioni": [
     {
       "tipo": "RACCOLTA",
