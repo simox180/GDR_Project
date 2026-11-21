@@ -143,7 +143,7 @@ public class Partita {
     }
 
     /**
-     * Inserisce l’oggetto nell’inventario e registra {@code raccolta:idScena:idScelta}. La scelta è già stata validata.
+     * Inserisce l’oggetto nell’inventario e registra idScelta. La scelta è già stata validata.
      * @param scelta scelta di raccolta disponibile
      * @throws IllegalStateException se la raccolta è già avvenuta
      * @throws IllegalArgumentException se l’oggetto non è nel catalogo
@@ -207,7 +207,7 @@ public class Partita {
     }
 
     /**
-     * Chiude lo scontro terminato; in caso di vittoria assegna il bottino e registra {@code vittoria:idIncontro}.
+     * Chiude lo scontro terminato; in caso di vittoria assegna il bottino e registra idIncontro.
      * @throws IllegalStateException se non esiste uno scontro o è ancora in corso
      */
     private void concludiCombattimento(){
