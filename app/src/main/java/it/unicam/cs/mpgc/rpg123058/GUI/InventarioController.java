@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 import java.util.Objects;
 
-/** Visualizza l'inventario e gestisce equipaggiamento e uso degli oggetti. */
+/** Visualizza l'inventario e gestisce equipaggiamento e uso degli oggetti.*/
 public class InventarioController {
 
     @FXML
@@ -119,22 +119,16 @@ public class InventarioController {
      */
     private Button creaPulsanteOggetto(Oggetto oggetto) {
         boolean cambioConsentito = !partita.isInCombattimento() && !partita.isSconfitta();
+        //switch con pattern matching
+        return switch (oggetto) {
+            case Arma arma -> creaPulsante("Equipaggia", cambioConsentito, () -> partita.equipaggiaArma(arma));
 
-        if (oggetto instanceof Arma arma) {
-            return creaPulsante("Equipaggia", cambioConsentito, () -> partita.equipaggiaArma(arma));
-        }
+            case Armatura armatura -> creaPulsante("Equipaggia", cambioConsentito, () -> partita.equipaggiaArmatura(armatura));
 
-        if (oggetto instanceof Armatura armatura) {
-            return creaPulsante("Equipaggia", cambioConsentito, () -> partita.equipaggiaArmatura(armatura));
-        }
+            case Consumabile consumabile -> creaPulsante("Usa", partita.isTurnoGiocatore(), () -> usaConsumabile(consumabile));
 
-        if (oggetto instanceof Consumabile consumabile) {
-            boolean usoConsentito = partita.isTurnoGiocatore();
-
-            return creaPulsante("Usa", usoConsentito, () -> usaConsumabile(consumabile));
-        }
-
-        return null;
+            default -> null;
+        };
     }
 
     /**
@@ -144,11 +138,7 @@ public class InventarioController {
      * @param operazione azione da eseguire alla selezione
      * @return pulsante configurato
      */
-    private Button creaPulsante(
-            String testo,
-            boolean abilitato,
-            Runnable operazione
-    ) {
+    private Button creaPulsante(String testo, boolean abilitato, Runnable operazione) {
         Button pulsante = new Button(testo);
 
         pulsante.setMinWidth(Button.USE_PREF_SIZE);
@@ -218,16 +208,13 @@ public class InventarioController {
      * @return testo delle proprietà visualizzate
      */
     private String descriviProprieta(Oggetto oggetto) {
+
         return switch (oggetto) {
-            case Arma arma ->
-                    "Attacco: +" + arma.getAttaccoBonus();
+            case Arma arma -> "Attacco: +" + arma.getAttaccoBonus();
 
-            case Armatura armatura ->
-                    "Difesa: +" + armatura.getDifesaBonus();
+            case Armatura armatura -> "Difesa: +" + armatura.getDifesaBonus();
 
-            case ConsumabileCurativo curativo ->
-                    "Recupera fino a " + curativo.getPuntiCura()
-                            + " punti salute";
+            case ConsumabileCurativo curativo -> "Recupera fino a " + curativo.getPuntiCura() + " punti salute";
 
             default -> "";
         };

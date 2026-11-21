@@ -59,7 +59,7 @@ public class CombattimentoController {
         completaAzione();
     }
 
-    /** Aggiorna giocatore, nemici e indicazione del turno. */
+    /** Aggiorna giocatore, nemici e indicazione del turno.*/
     public void aggiornaCombattimento() {
         aggiornaGiocatore();
 
@@ -136,7 +136,7 @@ public class CombattimentoController {
         return new VBox(6, scelta, salute, statistiche);
     }
 
-    /** Abilita le azioni consentite dal turno e dalla selezione del bersaglio. */
+    /** Abilita le azioni consentite dal turno e dalla selezione del bersaglio.*/
     private void aggiornaPulsanti() {
         boolean turnoGiocatore = partita.isTurnoGiocatore();
 
@@ -147,7 +147,7 @@ public class CombattimentoController {
         pulsanteDifendi.setDisable(!turnoGiocatore);
     }
 
-    /** Attacca il bersaglio selezionato durante il turno del giocatore. */
+    /** Attacca il bersaglio selezionato durante il turno del giocatore.*/
     @FXML
     private void attacca() {
         if (!partita.isTurnoGiocatore() || bersaglioSelezionato == null) {
@@ -169,7 +169,7 @@ public class CombattimentoController {
         completaAzione();
     }
 
-    /** Esegue i turni dei nemici fino al turno del giocatore o alla fine dello scontro. */
+    /** Esegue i turni dei nemici fino al turno del giocatore o alla fine dello scontro.*/
     private void eseguiTurniNemici() {
         while (partita.isInCombattimento()
                 && !partita.isTurnoGiocatore()) {
@@ -177,7 +177,7 @@ public class CombattimentoController {
         }
     }
 
-    /** Completa i turni, aggiorna il pannello e segnala la fine dello scontro. */
+    /** Completa i turni, aggiorna il pannello e segnala la fine dello scontro.*/
     private void completaAzione() {
         eseguiTurniNemici();
         aggiornaCombattimento();
@@ -186,4 +186,5 @@ public class CombattimentoController {
             combattimentoTerminato.run();
         }
     }
+
 }

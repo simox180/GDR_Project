@@ -16,7 +16,7 @@ public class Main {
 
         System.out.println("L'ultima lanterna");
 
-        //avvia javaFX creando un istanza di ApplicazioneFX eseguendo automaticamente il metodo start
+        //avvia il thread javaFX creando un istanza di ApplicazioneFX eseguendo automaticamente il metodo start
         Application.launch(ApplicazioneFX.class, args);
     }
 }

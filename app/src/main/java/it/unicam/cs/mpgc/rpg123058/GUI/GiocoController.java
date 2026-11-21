@@ -1,5 +1,7 @@
 package it.unicam.cs.mpgc.rpg123058.GUI;
 
+import it.unicam.cs.mpgc.rpg123058.GUI.GestoreMusicaFX.GestoreMusica;
+import it.unicam.cs.mpgc.rpg123058.GUI.GestoreMusicaFX.Traccia;
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Partita;
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scelta.Scelta;
 import it.unicam.cs.mpgc.rpg123058.ModelloNarrativo.Scelta.SceltaCombattimento;
@@ -20,7 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 
-/** Coordina la scena narrativa e i pannelli di combattimento e inventario. */
+/** Coordina la scena narrativa, i pannelli di combattimento e inventario.*/
 public class GiocoController {
 
     @FXML
@@ -52,18 +54,22 @@ public class GiocoController {
     private Parent pannelloInventario;
     private InventarioController inventarioController;
 
+    private GestoreMusica gestoreMusica;
+
     /**
      * Collega la partita e le azioni di salvataggio e ritorno al menu.
      * @param partita partita da visualizzare
      * @param richiestaSalvataggio azione che salva la partita ed esce
      * @param richiestaMenu azione che riapre il menu
      */
-    public void configura(Partita partita, Runnable richiestaSalvataggio, Runnable richiestaMenu) {
+    public void configura(Partita partita, Runnable richiestaSalvataggio, Runnable richiestaMenu, GestoreMusica gestoreMusica) {
         this.partita = Objects.requireNonNull(partita, "Partita nulla");
 
         this.richiestaSalvataggio = Objects.requireNonNull(richiestaSalvataggio, "Operazione di salvataggio nulla");
 
         this.richiestaMenu = Objects.requireNonNull(richiestaMenu, "Operazione di ritorno al menu nulla");
+
+        this.gestoreMusica = gestoreMusica;
 
         aggiornaScena();
     }
@@ -93,7 +99,7 @@ public class GiocoController {
         Image immagine = new Image(risorsa.toExternalForm());
 
         if (immagine.isError()) throw new IllegalStateException("Impossibile caricare l'immagine");
-
+        //b3 è il parametro 'cover' che copre l'intera area mantenendo le proporzioni
         BackgroundSize dimensioni = new BackgroundSize(
                 100, 100,
                 true, true,
@@ -113,8 +119,10 @@ public class GiocoController {
 
     /** Ricrea le scelte disponibili o il pulsante di uscita alla fine della storia. */
     private void aggiornaScelte() {
+        //clear dei bottoni precedenti per aggiornare le scelte
         contenitoreScelte.getChildren().clear();
 
+        //nell'ultima scena è necessario avere un punto di ritorno al menu
         if ("primo_sole".equals(partita.getScenaCorrente().getId())) {
             mostraPulsanteEsci();
             return;
@@ -135,7 +143,7 @@ public class GiocoController {
     }
 
     /**
-     * Esegue una scelta e aggiorna la scena o apre il combattimento risultante.
+     * Esegue una scelta e aggiorna la scena o apre un combattimento a seconda del tipo di scelta.
      * @param scelta scelta narrativa selezionata
      */
     private void eseguiScelta(Scelta scelta) {
@@ -167,11 +175,9 @@ public class GiocoController {
     /** Carica o riapre il pannello dell'inventario sopra la scena di gioco. */
     @FXML
     private void apriInventario() {
+        //caricamento e creazione al primo utilizzo
         if (pannelloInventario == null) {
-            URL risorsa = Objects.requireNonNull(
-                    getClass().getResource("/FXML/inventario.fxml"),
-                    "Risorsa inventario.fxml non trovata"
-            );
+            URL risorsa = Objects.requireNonNull(getClass().getResource("/FXML/inventario.fxml"), "Risorsa inventario.fxml non trovata");
 
             FXMLLoader loader = new FXMLLoader(risorsa);
 
@@ -198,7 +204,7 @@ public class GiocoController {
                 e.printStackTrace();
                 avviso.showAndWait();
             }
-        } else {
+        } else {//rende i pannello visibile nuovamente senza crearlo mantenendo il riferimento
             inventarioController.aggiornaInventario();
             pannelloInventario.setVisible(true);
             pannelloInventario.setManaged(true);
@@ -250,6 +256,8 @@ public class GiocoController {
         pannelloCombattimento.toFront();
 
         combattimentoController.configura(partita, this::gestisciFineCombattimento);
+
+        gestoreMusica.riproduci(Traccia.COMBATTIMENTO);
     }
 
     /** Chiude il combattimento e mostra la scena narrativa o la sconfitta. */
@@ -261,6 +269,8 @@ public class GiocoController {
 
         pannelloNarrativo.setManaged(true);
         pannelloNarrativo.setVisible(true);
+
+        gestoreMusica.riproduci(Traccia.GIOCO);
 
         if (partita.isSconfitta()) {
             mostraSconfitta();

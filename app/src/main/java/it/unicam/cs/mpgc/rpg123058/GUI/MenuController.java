@@ -25,6 +25,8 @@ public class MenuController {
     @FXML
     private Label messaggioErrore;
 
+    //gli altri bottoni non hanno un campo perchè non devono essere direttamente manipolati,
+    // Continua invece è visibile in base alla presenza di un salvataggio
     @FXML
     private Button pulsanteContinua;
 
@@ -32,10 +34,12 @@ public class MenuController {
 
     private ConfigurazionePartita configurazione;
 
-    //Consumer<T> è un'interfaccia funionale Java che rappresenta un'operazione che riceve un paramentro
-    //di tipo T con cui esegue un azione senza restituire nulla (void)
+    //Consumer<T> è un'interfaccia funzionale Java che rappresenta un'operazione che riceve un paramentro
+    //di tipo T con cui viene eseguita un'azione con .accept senza restituire nulla (void)
     private Consumer<Partita> apriPartita;
 
+    //Qui non serve un costruttore, perchè viene fornito da Java e la classe viene creata dall'FXMLLoader dal campo fx:controller=...
+    //,e con getController, e lo stesso caricatore collegherà anche gli elementi grafici
 
     /**
      * Collega il menu ai servizi della partita e all'azione di apertura.
@@ -51,20 +55,21 @@ public class MenuController {
 
         this.apriPartita = Objects.requireNonNull(apriPartita, "Operazione di apertura nulla");
 
+        //se non esiste un salvataggio il bottone Continua è ovviamente disabilitato
         pulsanteContinua.setDisable(!gestoreSalvataggi.esisteSalvataggio());
     }
 
-    /** Crea e apre una partita se il nome inserito è valido. */
+    /** Crea e apre una partita se il nome inserito è valido.*/
     @FXML
     private void nuovaPartita() {
-        //.strp elimina gli spazi all'inizio e alla fine per il nome
+        //.strip elimina gli spazi all'inizio e alla fine per il nome
         String nome = campoNome.getText().strip();
 
         if (nome.isBlank()) {
             messaggioErrore.setText("Inserisci il nome del protagonista.");
             return;
         }
-
+        //in caso di messaggio precedente cleariamo il messaggio di errore
         messaggioErrore.setText("");
 
         Partita partita = configurazione.creaNuovaPartita(nome);
@@ -72,7 +77,7 @@ public class MenuController {
         apriPartita.accept(partita);
     }
 
-    /** Ripristina e apre la partita salvata, segnalando eventuali errori nel menu. */
+    /** Ripristina e apre la partita salvata, segnalando eventuali errori nel menu.*/
     @FXML
     private void continuaPartita() {
         messaggioErrore.setText("");
@@ -93,7 +98,7 @@ public class MenuController {
             e.printStackTrace();
             return;
         }
-
+        //callback per aprire la partita ricevuta come parametro
         apriPartita.accept(partita);
     }
 

@@ -54,3 +54,7 @@ javafx {
         'javafx.media'
     ]
 }
+
+tasks.named('run', JavaExec) {
+    jvmArgs '--enable-native-access=javafx.graphics,javafx.media'
+}
